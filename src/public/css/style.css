@@ -1,0 +1,99 @@
+body{
+    background: #e4e4e4 ;
+    font-family: 'Oswald', sans-serif;
+  }
+  
+  .index {
+      width: 98vw;
+      height: 100vh;
+      overflow: hidden;
+      
+  }
+  
+  .navbar {
+      background: #222326 !important;
+  }
+  
+  .nav-link {
+      color: #C9D3E7 !important;
+  }
+  
+  .masthead {
+      color: black;
+      min-height: 30rem;
+      width: 100%;
+      height: 100%;
+      padding-top: 8rem;
+      padding-bottom: 8rem;
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-size: cover;
+  }
+  .btn-primary{
+    background-color: #06c4e6;
+    border-color: #06c4e6;
+  }
+  
+  .masthead h1 {
+      font-size: 4rem;
+      margin: 0;
+      padding: 0;
+  }
+  
+  .btn-aTurno:hover{
+    cursor: pointer;
+  }
+  
+  /*card perfil*/
+  .crd-info{
+    background-color:#011126; 
+    color:white;
+  }
+  
+  .tbl-info{
+    border-radius: 5px;
+    background-color: white;
+    border-color: #011126;
+  }
+  .table td, table th{
+    border-top:transparent;
+  }
+  
+  /*cards de los turnos*/
+  .btn-disp{
+    background-color:#011126; 
+    color:white;
+    border-color: white;
+  }
+  .btn-turno{
+    background-color:#011126; 
+    color:white;
+    border-color: black;
+    margin-bottom: 1px;
+  }
+  .btn-noDisp{
+    background-color:#F25C5C;
+    color: black;
+    border-color: white;
+  }
+  /*animacion de cards*/
+  .btn-disp:hover{
+    background:#F25C5C;
+    color: #011126;
+  } 
+  
+  .btn-turno:hover{
+    background-color: #F2B705;
+    border-color: #011126;
+    color: #011126;
+  }
+    @media (min-width: 992px) {
+      .masthead {
+        height: 100vh;
+      }
+      .masthead h1 {
+        font-size: 5.5rem;
+      }
+    }
+    
+  
