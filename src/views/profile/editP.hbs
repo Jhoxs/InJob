@@ -1,0 +1,91 @@
+
+<div class="container p-3">
+    <div class="row">
+        <div class="col-md-6  mx-auto">
+            <div class="card text-center crd-prf">
+                {{#with perfil}}
+                <div class="card-header">
+                    <h1 class="form-titulo text-center" >Edita tu perfil</h1>
+                    <p class="text-center">{{nombre}} {{apellido}}</p>
+                </div>
+                <div class="card-body">
+                    {{!inicio del fomulario}}    
+                    <form  class="form-registro" action="/perfil/edit/" method="POST">
+                        
+                        
+                        
+                        <div class="frm-group fld-nombre " >
+                            <input type="text" id="fnombre" name="nombre" placeholder="Nombre" value="{{nombre}}" maxlength="20" autofocus>
+                            <input type="text" id="fapellido" name="apellido" placeholder="Apellido" value="{{apellido}}" maxlength="20" required><br>
+                        </div>
+                        {{!grupo cedula}}
+                        <div class="frm-group">
+                            <input type="text" id="fcedula" name="cedula" placeholder="Cedula" value="{{cedula}}" maxlength="10" pattern="[0-9]{10}" required><br>
+                        </div>
+                        {{!grupo email}}
+                        <div class="frm-group">
+                            <input type="email" id="fcorreo" name="correo" placeholder="Correo Electronico" value="{{correo}}" maxlength="40" required><br>
+                        </div>
+                        {{!grupo telefono}}
+                        <div class="frm-group">
+                            <input type="tel" id="ftelefono" name="telefono" placeholder="Teléfono" value="{{telefono}}" maxlength="10" pattern="[0-9]{7|10}" title="Ingresa un telefono valido" required><br>
+                        </div>
+
+                        <hr>
+                        {{!grupo edad}}
+                        <div class="frm-group text-left">
+                            <p class="form-p-group">Fecha de nacimiento: <b class="">{{nacimiento}}</b></p>
+                            <input type="date" id="fechaN" name="nacimiento" placeholder="Nacimiento" value="{{newFecha}}" min="1910-00-00" max="2022-00-00">
+                        </div>
+                        {{!grupo sexo}}
+                        <div class="frm-group text-left">
+                            <p class="form-p-group">Sexo: <b class="">{{sexo}}</b></p>
+                            <select name="sexo" id="fsexo" class="pb-1 pt-1" required>
+                                <option  selected value="{{sexo}}">Cambiar de Sexo - {{sexo}}</option>
+                                <option  value="Hombre">Hombre</option>
+                                <option  value="Mujer">Mujer</option>
+                                <option  value="Otros">Otros</option>
+                            </select>
+                        </div>
+                        <input type="hidden" value="{{cedula}}" name="cedulaAct" >
+                        <input type="hidden" value="{{correo}}" name="correoAct" >
+                        <input type="hidden" value="{{telefono}}" name="telefonoAct" >
+                        <hr>
+                        {{/with}}
+                        <button onclick="location.href='/perfil'"  type="button" class="btn btn-secondary">Atras</button>
+                        <button type="submit" class="btn btn-dark" >Guardar</button>
+                    </form>
+
+                </div>
+
+            </div>
+            
+            
+        </div>
+    </div>
+</div>
+
+
+
+
+<script>
+    // Uso de Javascript
+    let hoy = new Date();
+    //selecciona el dia
+    let dd = hoy.getDate();
+    //selecciona el mes
+    let mm = hoy.getMonth()+1; //Enero empieza en 0 por lo que es necesario agregar un 1, para que cumpla con el estandar
+    //selecciona el año
+    let yyyy = hoy.getFullYear();
+    //establecemos el formato para que sea acorde al estandar del input
+    if(dd<10){
+    dd='0'+dd
+    } 
+    if(mm<10){
+    mm='0'+mm
+    } 
+
+    hoy = yyyy+'-'+mm+'-'+dd;
+    //hace que el dia minimo sea hoy
+    document.getElementById("fechaN").setAttribute("max",hoy);
+</script>

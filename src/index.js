@@ -11,12 +11,12 @@ const bodyParser = require('body-parser');
 //Modulo para agregar taeras al servidor
 const cron = require('node-cron');
 //const taskCron = require('./helpers/tareasCron');
-//>Uso de la base de datos
+//>--Uso de la base de datos
 //Modulos para crear sesion en una bd
 const session = require('express-session');
 const MySQLStore = require('express-mysql-session')(session);
 //config almacena la informacion de mi base de datos
-//const iniciadorRoles = require('./lib/iniRolUsers');
+const iniciadorRoles = require('./lib/iniRolUser');
 const { database } = require('./config/database.config');
 const sessionStore = new MySQLStore(database);
 //Modulo para llamar a las variables de entorno del .env
@@ -24,7 +24,8 @@ require('dotenv').config();
 
 //--inicializadores
 const app = express();
-//require('./lib/passport');
+iniciadorRoles.iniciar();
+require('./helpers/passport');
 
 //--Configuraciones
 app.set('port', process.env.PORT||3000);
@@ -44,13 +45,26 @@ app.set('view engine', 'hbs');
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
-//app.use(flash());
+//Creamos la sesion local
+app.use(
+    session({
+      key: 'session_cookie_name',
+      secret: "Josemysqlnodemysql_cookie_secret",
+      store: sessionStore,
+      resave: false,
+      saveUninitialized: false
+    })
+  );
+//flash nos permite usar alertas en caso de algun error 
+app.use(flash());
+app.use(passport.initialize());
+app.use(passport.session());
 
 //--Variables Globales
 app.use((req,res,next) => {
     //hace uso de la libreria flash para mandar mensajes de confirmacion, u otros mensajes
-    //app.locals.message = req.flash('message');
-    //app.locals.success = req.flash('success');
+    app.locals.message = req.flash('message');
+    app.locals.success = req.flash('success');
     app.locals.user = req.user;
     next();
 });
@@ -60,7 +74,7 @@ app.use(require('./routes/index.routes'));
 app.use(require('./routes/auth.routes'));
 //app.use('/turnos',require('./routes/turnos'));
 //app.use('/usuarios',require('./routes/usuarios'));
-//app.use('/perfil',require('./routes/perfil'));
+app.use('/perfil',require('./routes/perfil.routes'));
 
 
 

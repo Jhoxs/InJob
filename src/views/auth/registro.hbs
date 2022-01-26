@@ -1,0 +1,105 @@
+<div class="p-blur">
+    <div class="container p-3">
+        <div class="row">
+            <div class="col-md-5  mx-auto">
+                <div class="login">
+                    <div class="card text-center">
+                        <div class="card-header">
+                            <h3>Registro</h3>
+                        </div>
+                        <div class="card-body">
+                            <form action="/registro" method="POST" class="form-registro">
+                                {{!grupo de nombres}}
+                                <div class="frm-group">
+                                    <input  type="text" id="fnombre" name="nombre" placeholder="Nombre" maxlength="20" required>
+                                    <input  type="text" id="fapellido" name="apellido" placeholder="Apellido" maxlength="20" required><br>
+                                </div>
+                                {{!grupo cedula}}
+                                <div class="frm-group">
+                                    <input  type="text" id="fcedula" name="cedula" placeholder="Cedula" maxlength="10" pattern="[0-9]{10}" required><br>
+                                </div>
+                                {{!grupo email}}
+                                <div class="frm-group">
+                                    <input  type="email" id="fcorreo" name="correo" placeholder="Correo Electronico" maxlength="40" required><br>
+                                </div>
+                                {{!grupo telefono}}
+                                <div class="frm-group">
+                                    <input type="tel" id="ftelefono" name="telefono" placeholder="Teléfono" maxlength="10" pattern="[0-9]{10}" title="Ingresa un telefono valido" required><br>
+                                </div>
+                                <hr>
+                                {{!grupo pass1}}
+                                <div class="frm-group">
+                                    <input  type="password" id="fpass" name="clave" placeholder="Contraseña" maxlength="15" required><br>
+                                </div>
+                                {{!grupo pass2}}
+                                <div class="frm-group">
+                                    <input  type="password" id="fpass1" name="repass" placeholder="Repetir la contraseña" maxlength="15" required><br>
+                                </div>
+                                <hr>
+                                {{!grupo Fecha Nacimiento}}
+                                <div class="frm-group">
+                                    <p class="text-left">Fecha de nacimiento:</p>
+                                    <input id="fechaN" type="date" name="nacimiento"  min="1900-01-01"  required>   
+                                </div>
+                                {{!grupo sexo}}
+                                <div class="frm-group text-left">
+                                    <p class="mb-4">Sexo:</p>
+                                    <span class="mr-2"> <!--disabled-->
+                                        Hombre
+                                        <input type="radio" name="sexo" value="Hombre">
+                                    </span>
+                                    <span class="mr-2">
+                                        Mujer
+                                        <input  type="radio" name="sexo" value="Mujer">
+                                    </span>
+                                    <span>
+                                        Otros
+                                        <input  type="radio" name="sexo" value="Otros">
+                                    </span> 
+                                </div>
+                                <br>
+                                <hr >
+                                <div class="frm-group text-left">
+                                    <p>Rol del usuario: <b class="text-uppercase"></b></p>
+                                    <select name="rol" id="frol" class="pb-1 pt-1" required >
+                                        <option selected> Elegir un rol </option>
+                                        <option value="1">Emlpeado</option>
+                                        <option value="2">Empresa</option>
+                                    </select>
+                                </div>
+                                <hr>
+                                <button onclick="location.href='/login'" type="button" class="btn btn-secondary">Atras</button>
+                                <button type="submit" id="btn_aceptar" class="btn btn-dark">Aceptar</button>
+                            </form>
+
+                        </div>
+
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Uso de Javascript
+    let hoy = new Date();
+    //selecciona el dia
+    let dd = hoy.getDate();
+    //selecciona el mes
+    let mm = hoy.getMonth()+1; //Enero empieza en 0 por lo que es necesario agregar un 1, para que cumpla con el estandar
+    //selecciona el año
+    let yyyy = hoy.getFullYear();
+    //establecemos el formato para que sea acorde al estandar del input
+    if(dd<10){
+    dd='0'+dd
+    } 
+    if(mm<10){
+    mm='0'+mm
+    } 
+
+    hoy = yyyy+'-'+mm+'-'+dd;
+    //hace que el dia minimo sea hoy
+    document.getElementById("fechaN").setAttribute("max",hoy);
+</script>
