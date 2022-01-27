@@ -1,0 +1,59 @@
+
+<div class="container p-4">
+    <div class="row">
+        {{#each allUser}}
+        <div class="col-md-4" style="margin-bottom:8px; ">
+            <div class="card crd-prf">
+                <div class="card-header">
+                    <h3 class="card-title text-uppercase text-center">{{nombre}} {{apellido}}</h3>
+                </div>
+                <div class="card-body">
+
+                    <table class="table table-hover table-striped tbl-info table-dark">
+                        <tr>
+                            <td><b>CORREO</b></td>
+                            <td>{{correo}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>CEDULA</b></td>
+                            <td>{{cedula}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>TELEFONO</b></td>
+                            <td>{{telefono}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>SEXO</b></td>
+                            <td>{{sexo}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>ROL</b></td>
+                            <td>{{rol}}</td>
+                        </tr>
+                    </table>
+                    <div class="text-center">
+                        <button  class="btn btn-danger btn-eUser" value="{{cedula}}">
+                            Eliminar Usuario
+                        </button>
+                        <a class="btn btn-dark" href="/usuarios/edit/{{cedula}}">
+                            Editar Datos
+                        </a>
+                    </div>
+                   
+
+                </div>
+            </div>
+            
+        </div>
+        {{else}}
+        <div class="col-md-4 mx-auto">
+            <div class="card card-body text-center">
+                <h4>No existen usuarios registrados</h4>
+                <hr>
+                <a  class="btn btn-primary m-3" href="/inicio">Volver al inicio</a>
+            </div>
+        </div>
+        {{/each}}    
+
+    </div>
+</div>

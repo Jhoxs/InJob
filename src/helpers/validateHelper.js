@@ -37,7 +37,7 @@ const validateResultURL =  (req, res, next) => {
             req.flash('message',errores[i].msg);
         }
         //me redirecciona a  la url que obtiene
-        res.redirect('/turnos/addTurno');  
+        res.redirect('/perfil');  
     }
 }
 

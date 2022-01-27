@@ -1,4 +1,4 @@
-const pool = require('../database');
+const pool = require('../controllers/database.controller');
 const vRol = {};
 //Protege las rutas dependiendo de los roles
 //--Verifica si es Administrador

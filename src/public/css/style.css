@@ -114,6 +114,14 @@ border-top:transparent;
 .btn-plus:hover{
 cursor: pointer;
 }
+.btn-del{
+    color: white;
+    text-decoration: none;
+}
+.btn-del:hover{
+    color: #881f42;
+    text-decoration: none;
+}
 @media (min-width: 992px) {
     .masthead {
     height: 100vh;

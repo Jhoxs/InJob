@@ -1,0 +1,97 @@
+<div class="col-md-5 mx-auto" style="margin-top: 8px;">
+     <div class="card crd-prf">
+         <div class="card-header">
+             <h1 class="form-titulo text-center text-uppercase" >Agregar nuevo empleo</h1>
+         </div>
+         <div class="card-body">
+             <form class="form-registro" action="/empleo/add" method="POST">
+                {{!grupo de nombres}}
+                <div class="frm-group">
+                    <label>Detalles Generales: </label>
+                    <input type="text" name="nombre" placeholder="Nombre del Empleo" maxlength="20" required>
+                </div>
+                {{!area de trabajo}}
+                <div class="frm-group">
+                    <select name="provincia" id="fprov" class="pb-1 pt-1" required >
+                        <option selected> Selecciona un area de trabajo </option>
+                        {{#each areas}}
+                        <option value="{{nombre_area}}">{{nombre_area}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+                {{!grupo sueldo}}
+                <div class="frm-group">
+                    <input type="text" id="fsueldo" name="sueldo" placeholder="Sueldo" maxlength="10" pattern="[0-9]{10}" required><br>
+                </div>
+                {{!grupo provincial}}
+                <hr>
+                <div class="frm-group">
+                    <label>Localización: </label>
+                    <select name="provincia" id="fprov" class="pb-1 pt-1" required >
+                        <option selected> Selecciona una provincia </option>
+                        {{#each provincias}}
+                        <option value="{{nombre_provincia}}">{{nombre_provincia}}</option>
+                        {{/each}}
+                    </select>
+                </div>
+                {{!grupo Direccion}}
+                <div class="frm-group">
+                    <input type="tel" id="fdir" name="direccion" placeholder="Dirección" maxlength="30" required><br>
+                </div>
+                <hr>
+                <label class="form-p-registro">Fecha de vencimiento:</label>
+                <input id="fnBsq" type="date" name="vencimiento"   max="2030-31-31" required>  
+                <hr>
+                {{!grupo roles}}
+                <div class="frm-group">
+                    <label>Descripción del Puesto</label><br>
+                    <textarea name="descripcion" class="form-control txt-trab text-left">Ingresa una descripcion del trabajo
+                    </textarea>
+                </div>
+                <hr>
+                <div class="frm-group">
+                    <label>Requisitos</label><br>
+                    <textarea name="requisitos"  class="form-control txt-trab text-left">Ingresa los requisitos mínimos</textarea>
+                </div>
+                <hr style="background-color: white;">
+                <div class="text-center">
+                    <button onclick="location.href='/inicio'" type="button" class="btn btn-secondary">Atras</button>
+                    <button type="submit" class="btn btn-dark">Aceptar</button>
+                </div>
+                
+        
+            </form>
+         </div>
+     </div>
+     
+    </div>
+</div>
+
+<script>
+    // Use Javascript
+    let hoy = new Date();
+    //selecciona el dia
+    let dd = hoy.getDate();
+    //selecciona el mes
+    let mm = hoy.getMonth()+1; //Enero empieza en 0 por lo que es necesario agregar un 1, para que cumpla con el estandar
+    //selecciona el año
+    let yyyy = hoy.getFullYear();
+    //establecemos el formato para que sea acorde al estandar del input
+    /*
+    dd++;
+    if(dd>31){ //valida para que solo se acepte el dia siguiente
+      dd= 0;  
+    } */
+    if(dd<10){
+        dd='0'+dd;
+    }
+    
+    if(mm<10){
+        mm='0'+mm;
+    } 
+
+    hoy = yyyy+'-'+mm+'-'+dd;
+    //hace que el dia minimo sea hoy
+    document.getElementById("fnBsq").setAttribute("min",hoy);
+    //document.getElementById("fnBsq").setAttribute("value",hoy);
+</script>

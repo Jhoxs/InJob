@@ -62,10 +62,11 @@ CREATE TABLE experiencia(
   CONSTRAINT experiencia_Fk1 FOREIGN KEY (id_empleado) REFERENCES usuario (cedula)
 );
 
-DROP TABLE IF EXISTS formA;
-CREATE TABLE formA(
+DROP TABLE IF EXISTS forma;
+CREATE TABLE forma(
   id_formA int (10) NOT NULL AUTO_INCREMENT,
   nombre_formA varchar(29) NOT NULL,
+  nivel int(2) NOT NULL,
   id_empleado int (10) NOT NULL,
   /*Llave primaria*/
   PRIMARY KEY (id_formA),
@@ -93,4 +94,22 @@ CREATE TABLE idiomas(
   PRIMARY KEY (id_idiomas),
   /*LLave foranea*/
   CONSTRAINT idiomas_Fk1 FOREIGN KEY (id_empleado) REFERENCES usuario (cedula)
+);
+
+DROP TABLE IF EXISTS area_trabajo;
+CREATE TABLE area_trabajo(
+  id_area int(10) NOT NULL AUTO_INCREMENT,
+  nombre_area varchar (20) NOT NULL,
+  /*Llave primaria*/
+  PRIMARY KEY (id_area)
+);
+
+
+DROP TABLE IF EXISTS provincias;
+CREATE TABLE provincias(
+  id_provincia int (10) NOT NULL AUTO_INCREMENT,
+  nombre_provincia varchar(20) NOT NULL,
+  /*Llave primaria*/
+  PRIMARY KEY (id_provincia)
+
 );

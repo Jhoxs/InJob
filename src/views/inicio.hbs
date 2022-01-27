@@ -1,3 +1,45 @@
-<div class="card">
-    <p>Bienvenidos al centro</p>
+<div class="container p-2 mt-2">
+    <div class="row">
+        <div class="col-md-3 mx-left">
+            <div class="card crd-prf">
+                <div class="card-header text-center">
+                    <h3>Bienvenidos usuario</h3>
+                    <h5>{{user.nombre}} {{user.apellido}}</h5>
+                </div>
+                <div class="card-body  text-center">
+                    <h5>Búsqueda</h5>
+                    <hr style="background-color: white;">
+                    <form class="form-registro"  action="/usuarios/search" method="POST">
+                        <div class="frm-group">
+                            <p class="form-p text-center">Ingresa la empresa que estes buscando:</p>
+                            <input type="text"  id="fnBsq" name="cedula" placeholder="Búsqueda" maxlength="10" pattern="[0-9]{10}"  style="color: black;" required >  
+                        </div>
+                        
+                        <hr style="background-color: white;">
+                        <div class="text-center">
+                            <button onclick="location.href='/usuarios'"  type="button" class="btn btn-secondary">Atras</button>
+                            <button type="submit" class="btn btn-dark">Buscar</button>
+                        </div>  
+                    </form>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9 mx-auto">
+
+            {{#if empleo}}
+            {{else}}
+                <div class="card crd-prf text-center">
+                    <div class="card-body">
+                        <h2>Aún no han publicado ningún empleo</h2>
+                        <hr style="background-color: white;">
+                        <h4>Publica el tuyo ahora!</h4>
+                        <a class="btn btn-dark" href="/empleo/add">Publicar</a>
+                    </div>
+                </div>
+            {{/if}}
+            
+         </div>
+    </div>
 </div>
+

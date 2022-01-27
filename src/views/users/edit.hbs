@@ -1,0 +1,62 @@
+<div class="col-md-5 mx-auto" style="margin-top: 8px;">
+    <div class="card crd-prf">
+
+        <div class="card-header">
+            <h1 class="form-titulo text-center" >Edición de datos</h1>
+                <p class="text-center">{{oneUser.nombre}} {{oneUser.apellido}}</p>
+        </div>
+    
+        <div class="card-body">
+            {{!inicio del fomulario}}  
+            <form  class="form-registro"  action="/usuarios/edit/{{oneUser.cedula}}" method="POST">
+                <div class="frm-group fld-nombre " >
+                    <input type="text" id="fnombre" name="nombre" placeholder="Nombre" value="{{oneUser.nombre}}" maxlength="20" autofocus>
+                    <input type="text" id="fapellido" name="apellido" placeholder="Apellido" value="{{oneUser.apellido}}" maxlength="20" required><br>
+                </div>
+                {{!grupo cedula}}
+                <div class="frm-group">
+                    <input type="text" id="fcedula" name="cedula" placeholder="Cedula" value="{{oneUser.cedula}}" maxlength="10" pattern="[0-9]{10}" required><br>
+                </div>
+                {{!grupo email}}
+                <div class="frm-group">
+                    <input type="email" id="fcorreo" name="correo" placeholder="Correo Electronico" value="{{oneUser.correo}}" maxlength="40" required><br>
+                </div>
+                {{!grupo telefono}}
+                <div class="frm-group">
+                    <input type="tel" id="ftelefono" name="telefono" placeholder="Teléfono" value="{{oneUser.telefono}}" maxlength="10" pattern="[0-9]{7|10}" title="Ingresa un telefono valido" required><br>
+                </div>
+                {{!grupo sexo}}
+                <div class="frm-group">
+                    <select name="sexo" id="fsexo" class="pb-1 pt-1" required>
+                        <option  selected value="{{oneUser.sexo}}">Cambiar de Sexo - {{oneUser.sexo}}</option>
+                        <option  value="Hombre">Hombre</option>
+                        <option  value="Mujer">Mujer</option>
+                        <option  value="Otros">Otros</option>
+                    </select>
+                </div>
+
+                <hr>
+                {{!grupo roles}}
+                <div class="frm-group">
+                    <p>Rol actual del usuario: <b class="text-uppercase">{{oneUser.rol}}</b></p>
+                    <select name="rol" id="frol"  class="pb-1 pt-1" required>
+                        <option selected value="{{oneUser.rol}}">Cambiar de Rol - {{oneUser.rol}}</option>
+                        <option value="1">Empleado</option>
+                        <option value="2">Empresa</option>
+                        <option value="3">Administrador</option>
+                    </select>
+                </div>
+                <input type="hidden" value="{{oneUser.cedula}}" name="cedulaAct" >
+                <input type="hidden" value="{{oneUser.correo}}" name="correoAct" >
+                <input type="hidden" value="{{oneUser.telefono}}" name="telefonoAct" >
+                <hr>
+                <div class="text-center">
+                    <button onclick="location.href='/usuarios'"  type="button" class="btn btn-secondary">Atras</button>
+                    <button type="submit" class="btn btn-dark">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+</div>
+

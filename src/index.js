@@ -73,15 +73,15 @@ app.use((req,res,next) => {
 app.use(require('./routes/index.routes'));
 app.use(require('./routes/auth.routes'));
 //app.use('/turnos',require('./routes/turnos'));
-//app.use('/usuarios',require('./routes/usuarios'));
+app.use('/usuarios',require('./routes/user.routes'));
 app.use('/perfil',require('./routes/perfil.routes'));
-
+app.use('/empleo',require('./routes/empleo.routes'));
 
 
 //--StaticFiles (public)
 app.use(express.static(path.join(__dirname,'public')));
 //Envia una pagina 404 si no se encontró ninguna ruta
-app.get('*', (req, res)=>{
+app.all('*', (req, res)=>{
     res.render('err/404');
 });
 
