@@ -113,3 +113,41 @@ CREATE TABLE provincias(
   PRIMARY KEY (id_provincia)
 
 );
+
+DROP TABLE IF EXISTS empleos;
+CREATE TABLE empleos(
+  id_empleos int (10) NOT NULL AUTO_INCREMENT,
+  id_empresa int(10) NOT NULL,
+  id_area int(10) NOT NULL,
+  nombre_empleo varchar(30) NOT NULL,
+  sueldo decimal(10,2) NOT NULL,
+  id_provincia int(10) NOT NULL,
+  direccion varchar(40) NOT NULL,
+  fecha_vencimiento date NOT NULL,
+  fecha_registro timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  descripcion text NOT NULL,
+  requisitos text NOT NULL,
+  /*Llave primaria*/
+  PRIMARY KEY (id_empleos),
+  /*Llaves foraneas*/
+  CONSTRAINT empleos_Fk1 FOREIGN KEY (id_empresa) REFERENCES usuario (cedula),
+  CONSTRAINT empleos_Fk2 FOREIGN KEY (id_area) REFERENCES area_trabajo (id_area),
+  CONSTRAINT empleos_Fk3 FOREIGN KEY (id_provincia) REFERENCES provincias (id_provincia)
+);
+
+DROP TABLE IF EXISTS empleado_empresa;
+CREATE TABLE empleado_empresa(
+  id_empEmp int (10) NOT NULL AUTO_INCREMENT,
+  id_empleos int(10) NOT NULL,
+  id_empleado int(10) NOT NULL,
+  id_empresa int(10) NOT NULL,
+  /*Llave primaria*/
+  PRIMARY KEY (id_empEmp),
+  CONSTRAINT empEmp_Fk1 FOREIGN KEY (id_empleos) REFERENCES empleos (id_empleos) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT empEmp_Fk2 FOREIGN KEY (id_empleado) REFERENCES usuario (cedula),
+  CONSTRAINT empEmp_Fk3 FOREIGN KEY (id_empresa) REFERENCES usuario (cedula)
+);
+
+/*Cambios el las llaves foraneas empleado-empresas*/
+ALTER TABLE empleado_empresa DROP FOREIGN KEY empEmp_Fk1; 
+ALTER TABLE empleado_empresa ADD CONSTRAINT empEmp_Fk1 FOREIGN KEY (id_empleos) REFERENCES empleos (id_empleos) ON DELETE CASCADE ON UPDATE CASCADE;

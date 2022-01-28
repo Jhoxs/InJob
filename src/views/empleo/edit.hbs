@@ -1,35 +1,44 @@
 <div class="col-md-5 mx-auto" style="margin-top: 8px;">
      <div class="card crd-prf">
          <div class="card-header">
-             <h1 class="form-titulo text-center text-uppercase" >Agregar nuevo empleo</h1>
+             <h1 class="form-titulo text-center text-uppercase" >EDITA EL EMPLEO {{data.nombre_empleo}}</h1>
          </div>
          <div class="card-body">
         {{!Inicio FORM}}
-             <form class="form-registro" action="/empleo/add" method="POST">
+             <form class="form-registro" action="/empleo/edit/{{data.id_empleos}}" method="POST">
+                <h5 class="text-center">Detalles Generales </h5>    
+                <hr style="background-color: white;">
                 {{!grupo de nombres}}
                 <div class="frm-group">
-                    <label>Detalles Generales: </label>
-                    <input type="text" name="nombre" placeholder="Nombre del Empleo" maxlength="20" required>
+                    
+                    <label>Nombre del empleo</label>
+                    <input type="text" value="{{data.nombre_empleo}}" name="nombre" placeholder="Nombre del Empleo" maxlength="20" required>
                 </div>
                 {{!area de trabajo}}
+                <br>
                 <div class="frm-group">
+                    <label>Área seleccionada: <b class="text-uppercase">{{data.nombre_area}}</b></label>
                     <select name="area" id="fprov" class="pb-1 pt-1" required >
-                        <option selected> Selecciona un area de trabajo </option>
+                        <option value="{{data.id_area}}" selected> Selecciona un area de trabajo - {{data.nombre_area}} </option>
                         {{#each areas}}
                         <option value="{{id_area}}">{{nombre_area}}</option>
                         {{/each}}
                     </select>
                 </div>
+                <br>
                 {{!grupo sueldo}}
                 <div class="frm-group">
-                    <input type="text" id="fsueldo" name="sueldo" placeholder="Sueldo" maxlength="10"  required><br>
+                    <label>Sueldo</label>
+                    <input value="{{data.sueldo}}" type="text" id="fsueldo" name="sueldo" placeholder="Sueldo" maxlength="10"  required><br>
                 </div>
                 {{!grupo provincial}}
                 <hr>
                 <div class="frm-group">
-                    <label>Localización: </label>
+                    <h5 class="text-center">Localización</h5 >
+                    <hr style="background-color: white;">
+                    <label>Provincia seleccionada: <b class="text-uppercase">{{data.nombre_provincia}}</b></label>
                     <select name="provincia" id="fprov" class="pb-1 pt-1" required >
-                        <option selected> Selecciona una provincia </option>
+                        <option value="{{data.id_provincia}}" selected> Selecciona una provincia - {{data.nombre_provincia}}</option>
                         {{#each provincias}}
                         <option value="{{id_provincia}}">{{nombre_provincia}}</option>
                         {{/each}}
@@ -37,27 +46,29 @@
                 </div>
                 {{!grupo Direccion}}
                 <div class="frm-group">
-                    <input type="tel" id="fdir" name="direccion" placeholder="Dirección" maxlength="30" required><br>
+                    <input value="{{data.direccion}}" type="tel" id="fdir" name="direccion" placeholder="Dirección" maxlength="30" required><br>
                 </div>
                 <hr>
+                    <h5 class="text-center">Información Adicional</h5 >
+                <hr style="background-color: white;">
                 {{!fecha vencimiento}}
-                <label class="form-p-registro">Fecha de vencimiento:</label>
-                <input id="fnBsq" type="date" name="vencimiento"   max="2030-31-31" required>  
+                <label class="form-p-registro">Fecha de vencimiento: <b>{{timeAct data.fecha_vencimiento}}</b></label>
+                <input value="{{timeActEdit data.fecha_vencimiento}}" id="fnBsq" type="date" name="vencimiento"   max="2030-31-31" required>  
                 <hr>
                 {{!grupo descipcion}}
                 <div class="frm-group">
                     <label>Descripción del Puesto</label><br>
-                    <textarea name="descripcion" class="form-control txt-trab text-left" placeholder="Ingresa la descripción de tu puesto" required></textarea>
+                    <textarea name="descripcion" class="form-control txt-trab text-left" placeholder="Ingresa la descripción de tu puesto" required>{{data.descripcion}}</textarea>
                 </div>
                 <hr>
                 {{!requisitos}}
                 <div class="frm-group">
                     <label>Requisitos</label><br>
-                    <textarea name="requisitos"  class="form-control txt-trab text-left" placeholder="Ingresa los requisitos necesarios" required></textarea>
+                    <textarea name="requisitos"  class="form-control txt-trab text-left" placeholder="Ingresa los requisitos necesarios" required>{{data.requisitos}}</textarea>
                 </div>
                 <hr style="background-color: white;">
                 <div class="text-center">
-                    <button onclick="location.href='/inicio'" type="button" class="btn btn-secondary">Atras</button>
+                    <button onclick="location.href='/empleo/viewJobs'" type="button" class="btn btn-secondary">Atras</button>
                     <button type="submit" class="btn btn-dark">Aceptar</button>
                 </div>
             </form>

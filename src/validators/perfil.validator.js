@@ -1,8 +1,6 @@
 //importamos el modulo check
 const { check } = require("express-validator");
 const { validateResultURL} = require("../helpers/validateHelper");
-//lamada a la base de datos
-const pool = require('../controllers/database.controller');
 //creamos un objeto validacion
 const profVal = {}
 //valida ingreso de infoAdicional -- admin

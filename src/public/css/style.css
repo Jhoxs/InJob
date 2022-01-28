@@ -14,7 +14,6 @@ body{
     
 }
 
-
 .navbar {
     background: #222326 !important;
 }
@@ -23,6 +22,19 @@ body{
     color: #C9D3E7 !important;
 }
 
+.dropdown-menu{
+    background-color: #222326;
+    
+}
+.dropdown-item{
+    color: #C9D3E7 !important;
+}
+.dropdown-item:hover{
+    background-color: #303135;
+}
+.dropdown-divider {
+    border-color: rgb(24, 23, 23)!important;
+}
 .masthead {
     color: white;
     min-height: 30rem;
@@ -81,7 +93,9 @@ color:black;
     color: white;
     background-color: #3F3B4F;
 }
-
+.crd-prf .card-footer{
+    background-color: #3C3440;
+}
 .tbl-info{
 border-radius: 5px;
 border-color: #011126;
@@ -90,6 +104,14 @@ border-color: #011126;
 border-top:transparent;
 }
 
+.txt-trab,
+.txt-trab:active{
+    border: 2px solid white !important;
+    background-color: #2C2F36!important;
+    color:white !important;
+    border-radius: 10px;
+    transition: 0.25s;
+}
 
 .field-table{
     background-color: #232428;
@@ -104,6 +126,10 @@ border-top:transparent;
     display: block;
 }
 
+
+.btn-aEmp:hover{
+    background-color: #AEA7D9;
+}
 
 .btn-plus{
     background-color: #3e3a49;

@@ -26,11 +26,11 @@ vRol.esEmpresa = async(req,res,next)=>{
 //--Verifica si es Empleado
 //no es estrictamente necesario hacer una consulta a la base de datos
 vRol.esEmpleado = (req,res,next)=>{
-    if(req.user.rol==='empresa'||'empleado'===req.user.rol){
+    if(req.user.rol==='administrador'||'empleado'===req.user.rol){
         return next();
     }
     console.log('no tiene acceso');
-    req.flash('message','No tienes los permisos suficientes');
+    req.flash('message','No tienes los permisos para acceder aquí');
     return res.redirect('/inicio');
 }
 

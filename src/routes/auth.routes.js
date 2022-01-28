@@ -13,9 +13,6 @@ router.post('/login',validacion.validateLogin,authCtrl.login);
 router.get('/registro',isNotLoggedIn,authCtrl.renderRegistro);
 router.post('/registro',validacion.validateRegistro,authCtrl.registro);
 
-//inicio
-router.get('/inicio', isLoggedIn, authCtrl.inicio);
-
 //cerrar sesion
 router.get('/logout',isLoggedIn,authCtrl.logout);
 

@@ -1,0 +1,94 @@
+<div class="container p-4">
+    <div class="row">
+    {{#with info}}
+        {{!inicio detalles generales}}
+        <div class="col-md-5 mx-left">
+            <div class="card crd-prf">
+                <div class="card-header text-center">
+                    <h3 class="text-uppercase">
+                        Detalles Generales
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <table class="table table-dark table-hover table-striped tbl-info ">
+                        <tr>
+                            <td>Nombre de la empresa</td>
+                            <td>{{nombre}} {{apellido}}</td>
+                        </tr>
+                        <tr>
+                            <td>Nombre del trabajo</td>
+                            <td>{{nombre_empleo}}</td>
+                        </tr>
+                        <tr>
+                            <td>Ubicacion</td>
+                            <td>{{nombre_provincia}}</td>
+                        </tr>
+                        <tr>
+                            <td>Sueldo</td>
+                            <td>{{sueldo}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="card crd-prf mt-2 text-center">
+                <div class="card-header ">
+                    <h3>    
+                        {{nombre}} {{apellido}}
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <a href="" class="btn btn-dark mb-2">Ver Información {{nombre}} {{apellido}}</a>
+                    <br>
+                    
+                    {{#unless existe}}
+                        <button value="{{id_empleos}}+{{id_empresa}}" class="btn btn-dark btn-eSoli"><i class="fa fa-folder-plus"></i> Solicitar Empleo</button>
+                    {{else}}
+                        <a href="/empleo/showSol" class="btn btn-secondary mb-2"><i class="fa fa-folder"></i> Volver a lista de solicitudes</a>
+                        <br>
+                        <button value="{{id_empleos}}+{{id_empresa}}" class="btn btn-danger btn-delSoli"><i class="fa fa-folder-minus"></i> Eliminar Solicitud</button>
+                    {{/unless}}
+                </div>
+            </div>      
+        </div>
+        {{!fin detalles generales}}
+
+        <div class="col-md-7 mx-auto">
+            <div class="card crd-prf">
+                <div class="card-header">
+                    <h3 class="card-title text-uppercase text-center">Información adicional</h3>
+                </div>
+                <div class="card-body">
+                    <h4 class="text-left">Descripción del empleo</h4>
+                    <hr style="background-color: white;">
+                    <textarea class="form-control txt-trab text-left" readonly>{{descripcion}}</textarea>
+                    <hr>
+                    <h4 class="text-left">Requisitos</h4>
+                    <hr style="background-color: white;">
+                    <textarea class="form-control txt-trab text-left" readonly>{{requisitos}}</textarea>
+                    <hr>
+                    <h4 class="text-left">Detalles adicionales</h4>
+                    <table class="table table-dark table-hover table-striped tbl-info ">
+                        
+                        <tr>
+                            <td>Área de trabajo</td>
+                            <td>{{nombre_area}}</td>
+                        </tr>
+                        <tr>
+                            <td>Dirección</td>
+                            <td>{{direccion}}</td>
+                        </tr>
+                        <tr>
+                            <td>Fecha de publicación</td>
+                            <td>{{timeAct fecha_registro}}</td>
+                        </tr>
+                        <tr>
+                            <td>Vencimiento de la oferta</td>
+                            <td>{{timeAct fecha_vencimiento}}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    {{/with}}
+    </div>
+</div>

@@ -1,6 +1,5 @@
 const authCtrl = {}
 const passport = require ('passport');
-const pool = require('../controllers/database.controller');
 
 //---registro
 //getRegistro
@@ -26,18 +25,16 @@ authCtrl.login  = passport.authenticate('local.login',{
         failureFlash: true
 });
 
-
-//---Inicio
-authCtrl.inicio = async(req, res) => {    
-     res.render('inicio',{title:'inicio'});
-}
-
 //---Cerrar Sesion
 authCtrl.logout =  (req,res,next) =>{
     req.logOut();
     res.redirect('/');
 }
 
+//---Inicio
+authCtrl.inicio = async(req, res) => {    
+    res.render('inicio',{title:'inicio'});
+}
 
 
 module.exports = authCtrl;

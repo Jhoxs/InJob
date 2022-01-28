@@ -1,0 +1,50 @@
+<div class="container p-3">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            {{#each empleos}}
+            {{!empleos lista}}
+            <div class="card crd-prf mb-1">
+                <div class="card-header">
+                    <h3 class="text-left">
+                        {{nombre_empleo}}
+                    </h3>
+                </div>
+                <div class="card-body p-2">
+                    <table class="table table-hover table-striped tbl-info table-dark"> 
+                        <tr>
+                            <td><b>SUELDO</b></td>
+                            <td class="text-left">{{sueldo}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>AREA DE TRABAJO</b></td>
+                            <td class="text-left">{{nombre_area}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>FECHA DE VENCIMIENTO</b></td>
+                            <td class="text-left">{{timeAct fecha_vencimiento}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>FECHA DE REGISTRO</b></td>
+                            <td class="text-left">{{timeago fecha_registro}}</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="card-fotter text-center p-2">
+                    <a href="/empleo/delete/{{id_empleos}}" class="btn btn-danger"><i class="fa fa-trash"></i> Eliminar empleo</a>
+                    <a href="/empleo/edit/{{id_empleos}}" class="btn btn-secondary"><i class="fa fa-edit"></i> Editar datos</a>
+                    <a href="" class="btn btn-dark"><i class="fa fa-search"></i> Mostrar mas Información</a>
+                </div>
+            </div>
+            {{/each}}
+            {{#unless empleos}}
+                <div class="card crd-prf">
+                    <div class="card-body text-center">
+                        <h3>No has creado ningun empleo</h3>
+                        <hr style="background-color:white ;">
+                        <a href="/empleo/add" class="btn btn-dark">Agregar Empleo</a>
+                    </div>
+                </div>
+            {{/unless}}
+        </div>
+    </div>
+</div>

@@ -18,10 +18,24 @@
             aria-haspopup="true" aria-expanded="false">
           Opciones
           </a>
+          {{#esEmpleado user.rol}}
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="/empleo/showSol"> <i class="fa fa-folder"></i> Lista de solicitud empleos</a>
+          </div>
+          {{/esEmpleado}}
+          {{!Empresa}}
+          {{#esEmpresa user.rol}}
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="/empleo/add">Agregar Empleo</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="/empleo/viewJobs">Ver mis empleos</a>
+          </div>
+          {{/esEmpresa}}
         </li>
         {{!Pestaña del perfil}}
         <li class="nav-item">
-          <a class="nav-link" href="/perfil">Perfil</a>
+          <a class="nav-link" href="/perfil">
+          <i class="fa fa-id-badge"  aria-hidden="true"></i> Perfil</a>
         </li>
         {{#esAdmin user.rol}}
         {{!pestaña de usuarios}}
@@ -41,7 +55,7 @@
         {{/esAdmin}}
         {{!fin pestaña usuarios}}
         <li class="nav-item">
-          <a class="nav-link" href="/logout">Cerrar Sesión</a>
+          <a class="nav-link" href="/logout"><i class="fa fa-door-open"></i> Cerrar Sesión</a>
         </li>
 
         {{else}}

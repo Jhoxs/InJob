@@ -55,11 +55,12 @@
 
 .form-registro textarea{
     border: 2px solid white;
-    background-color: #2C2F36 ;
+    background-color: #2C2F36;
     color:white;
     border-radius: 10px;
     transition: 0.25s;
 }
+
 
 
 .form-registro input:focus,

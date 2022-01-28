@@ -1,12 +1,14 @@
 const express = require('express');
-const { isNotLoggedIn } = require('../middleware/auth.middleware');
+
+const indexCtrl = require('../controllers/index.controller');
+const { isNotLoggedIn,isLoggedIn } = require('../middleware/auth.middleware');
 const router = express.Router();
 
-router.get('/',isNotLoggedIn,(req,res)=>{
-    res.render('index',{title:'InJob'});
-})
+//landing
+router.get('/',isNotLoggedIn,indexCtrl.landing);
 
-
+//inicio
+router.get('/inicio', isLoggedIn, indexCtrl.inicio);
 
 
 module.exports = router;
