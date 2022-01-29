@@ -92,3 +92,65 @@ $('.btn-delSoli').click((e)=>{
       } 
     })
 })
+
+$('.btn-delJob').click((e)=>{
+  //e.target.value elige el valor que esta dentro del arreglo de valores
+  let link = e.target.value;
+  const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-primary',
+        cancelButton: 'btn btn-danger m-2'
+      },
+      buttonsStyling: false
+  })
+    
+  swalWithBootstrapButtons.fire({
+      title: '¿Estás seguro que deseas eliminar este trabajo?',
+      text: "Esta acción eliminará el trabajo seleccionado!",
+      icon: 'warning',
+      background:'#3e3a49',
+      color:'white',
+      allowOutsideClick: false,
+      allowEscapeKey: true,
+      showCancelButton: true,
+      confirmButtonText: 'Si, Eliminalo!',
+      cancelButtonText: ' No, Cancelalo!',
+      reverseButtons: true
+    }).then((result) => {//el resultado de presionar ok
+      if (result.isConfirmed) {
+          //redirecciona a la ruta delete/:id<-(e)
+          window.location.href = '/empleo/delete/'+link;
+      } 
+    })
+})
+
+$('.btn-delSEmp').click((e)=>{
+  //e.target.value elige el valor que esta dentro del arreglo de valores
+  let link = e.target.value;
+  const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-primary',
+        cancelButton: 'btn btn-danger m-2'
+      },
+      buttonsStyling: false
+  })
+    
+  swalWithBootstrapButtons.fire({
+      title: '¿Estás seguro que deseas eliminar esta solicitud?',
+      text: "Esta acción eliminará la solicitud del usuario!",
+      icon: 'warning',
+      background:'#3e3a49',
+      color:'white',
+      allowOutsideClick: false,
+      allowEscapeKey: true,
+      showCancelButton: true,
+      confirmButtonText: 'Si, Eliminalo!',
+      cancelButtonText: ' No, Cancelalo!',
+      reverseButtons: true
+    }).then((result) => {//el resultado de presionar ok
+      if (result.isConfirmed) {
+          //redirecciona a la ruta delete/:id<-(e)
+          window.location.href = '/empleo/deleteSolEmp/'+link;
+      } 
+    })
+})

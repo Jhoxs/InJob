@@ -1,6 +1,5 @@
 <div class="container p-4">
     <div class="row">
-    {{#with info}}
         {{!inicio detalles generales}}
         <div class="col-md-5 mx-left">
             <div class="card crd-prf">
@@ -11,6 +10,7 @@
                 </div>
                 <div class="card-body">
                     <table class="table table-dark table-hover table-striped tbl-info ">
+                    {{#with info}}
                         <tr>
                             <td>Nombre de la empresa</td>
                             <td>{{nombre}} {{apellido}}</td>
@@ -27,33 +27,61 @@
                             <td>Sueldo</td>
                             <td>{{sueldo}}</td>
                         </tr>
+                    
                     </table>
+                    <div class="card-fotter text-center p-2">
+                        <button  value="{{id_empleos}}" class="btn btn-danger btn-delJob"><i class="fa fa-trash"></i>Eliminar empleo</button >
+                        <a href="/empleo/edit/{{id_empleos}}" class="btn btn-secondary"><i class="fa fa-edit"></i> Editar datos</a>
+                    </div>
+                    {{/with}}
                 </div>
             </div>
+            {{!SOLICITUDES RECIBIDAS}}
             <div class="card crd-prf mt-2 text-center">
                 <div class="card-header ">
                     <h3>    
-                        OPCIONES
+                        SOLICITUDES RECIBIDAS
                     </h3>
                 </div>
-                <div class="card-body">
-                    <a href="" class="btn btn-dark mb-2">Ver Información {{nombre}} {{apellido}}</a>
-                    <br>
-                    
-                    {{#unless existe}}
-                        <button value="{{id_empleos}}+{{id_empresa}}" class="btn btn-dark btn-eSoli"><i class="fa fa-folder-plus"></i> Solicitar Empleo</button>
-                    {{else}}
-                        <a href="/empleo/showSol" class="btn btn-secondary mb-2"><i class="fa fa-folder"></i> Volver a lista de solicitudes</a>
-                        <br>
-                        <button value="{{id_empleos}}+{{id_empresa}}" class="btn btn-danger btn-delSoli"><i class="fa fa-folder-minus"></i> Eliminar Solicitud</button>
-                    {{/unless}}
+            {{#if sol}}
+                <div class="card-body p-1">
+                    <table class="table table-dark table-hover table-striped tbl-info">
+                        <thead>
+                            <tr>
+                                <th scope="col">Cédula</th>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Apellido</th>
+                                <th scope="col" colspan="2">Opciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each sol}}
+                            <tr>
+                                <td>{{cedula}}</td>
+                                <td>{{nombre}}</td>
+                                <td>{{apellido}}</td>
+                                <td class="text-right"><a href="/perfil/empleado/{{this.id_empleos}}+{{cedula}}" class="btn btn-dark"><i class="fa fa-eye"></i></a></td>
+                                <td class="text-left"><button value="{{this.id_empleos}}+{{cedula}}" class="btn btn-danger btn-delSEmp"><i class="fa fa-trash"></i></button></td>
+                            </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                    <div class="card-footer p-0">
+                        <a href="/empleo/showAllSol/{{info.id_empleos}}" class="btn btn-dark btn-block">Ver Todas</a>
+                    </div>
                 </div>
-            </div>      
+            {{else}}
+                <div class="card-body">
+                    <h5>No has recibido ninguna solicitud</h5>
+                </div>
+            {{/if}}
+            </div>
         </div>
         {{!fin detalles generales}}
 
         <div class="col-md-7 mx-auto">
             <div class="card crd-prf">
+            {{#with info}}
                 <div class="card-header">
                     <h3 class="card-title text-uppercase text-center">Información adicional</h3>
                 </div>
@@ -87,8 +115,9 @@
                         </tr>
                     </table>
                 </div>
+            {{/with}}
             </div>
         </div>
-    {{/with}}
+    
     </div>
 </div>

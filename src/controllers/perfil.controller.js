@@ -46,6 +46,63 @@ profCtrl.renderProf = async(req,res) =>{
     }
 }
 
+//mostrar perfil de los empleados --Empresa
+profCtrl.renderProfEmpleado = async(req,res) =>{
+    const {id} =  req.params;
+    const data = id.split('+');
+    //datos de la empresa
+    const {cedula} = req.user;
+    let sol = {
+        id_empleos: parseInt(data[0]),
+        id_empleado: parseInt(data[1]),
+        id_empresa: cedula
+    }
+    try {
+        //primero debemos verificar si los datos existen
+        const rows = await pool.query('SELECT * FROM empleado_empresa WHERE id_empleos = ? AND id_empleado = ? AND id_empresa = ?',[sol.id_empleos,sol.id_empleado,sol.id_empresa]);
+        //en caso de que exista coincidencia enviará un error
+        if(rows.length > 0){
+            //verificamos si podemos ver el perfil
+            const perfil = await pool.query('SELECT * FROM usuario WHERE cedula = ?',sol.id_empleado);
+            //uso de luxon para dar formato a la fecha
+            let newFecha = perfil[0].nacimiento.toISOString();
+            newFecha = DateTime.fromISO(newFecha).setLocale('es-ES').toFormat('dd LLLL yyyy');
+            Object.assign(perfil[0],{newFecha:newFecha});
+            Object.assign(perfil[0],{id_empleos:sol.id_empleos});
+            //---obtiene la informacion adicional
+            //Habilidades personales
+            const skill = await pool.query('SELECT  id_skill , nombre_skill FROM skill WHERE id_empleado = ?',[sol.id_empleado]);
+            //Experiencia Laboral
+            const exp = await pool.query('SELECT  id_exp , nombre_experiencia FROM experiencia WHERE id_empleado = ?',[sol.id_empleado]);
+            //Certificados
+            const cert = await pool.query('SELECT id_certificados, nombre_certificados FROM certificados WHERE id_empleado = ? ',[sol.id_empleado]);
+            //Idiomas
+            const idiomas = await pool.query('SELECT id_idiomas, nombre_idiomas FROM idiomas WHERE id_empleado = ? ',[sol.id_empleado]);
+            //Formacion academica
+            const fA1 = await pool.query('SELECT id_formA, nombre_formA FROM forma WHERE id_empleado = ? AND nivel = ?',[sol.id_empleado,'1']);
+            const fA2 = await pool.query('SELECT id_formA, nombre_formA FROM forma WHERE id_empleado = ? AND nivel = ?',[sol.id_empleado,'2']);
+            const fA3 = await pool.query('SELECT id_formA, nombre_formA FROM forma WHERE id_empleado = ? AND nivel = ?',[sol.id_empleado,'3']);
+            //guarda el nacimiento en formato dd/mm/aa para un posterior uso
+            perfil[0].nacimiento = perfil[0].nacimiento.toLocaleDateString();
+            res.render('profile/viewProfileEmpleado',{perfil:perfil[0],skill,exp,cert,idiomas,f1:fA1[0],f2:fA2[0],f3:fA3[0]});
+        }else{
+            res.render('err/403');
+        }
+       
+    } catch (error) {
+        if(error instanceof TypeError){
+            //Cierra sesion en caso de que el administrador haya modificado los datos
+            console.log(error);
+            req.flash('message','Vuelve a iniciar session');
+            res.render('err/errPerfil');
+        }else{
+            req.flash('message','Ocurrio un error al mostrar tus datos');
+            console.log(error);
+            res.redirect('/inicio');
+        }
+    }
+}
+
 
 //metodo get para editar el perfil del usuario ----
 profCtrl.renderProfEditG = async(req,res) => {

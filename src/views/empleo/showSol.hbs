@@ -36,6 +36,15 @@
                     </a>
                 </div>
                 {{/each}}
+                {{#unless data}}
+                <div class="card crd-prf">
+                    <div class="card-body text-center">
+                        <h3>No has enviado ninguna solicitud</h3>
+                        <hr style="background-color:white ;">
+                        <a href="/inicio" class="btn btn-dark"><i class="fa fa-home"></i> Volver al inicio</a>
+                    </div>
+                </div>
+                {{/unless}}
             </div>
         </div>
     </div>

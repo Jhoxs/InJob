@@ -12,36 +12,31 @@
                 <div class="card-body p-2">
                     <table class="table table-hover table-striped tbl-info table-dark"> 
                         <tr>
-                            <td><b>SUELDO</b></td>
-                            <td class="text-left">{{sueldo}}</td>
-                        </tr>
-                        <tr>
                             <td><b>AREA DE TRABAJO</b></td>
                             <td class="text-left">{{nombre_area}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>SUELDO</b></td>
+                            <td class="text-left">{{sueldo}}</td>
                         </tr>
                         <tr>
                             <td><b>FECHA DE VENCIMIENTO</b></td>
                             <td class="text-left">{{timeAct fecha_vencimiento}}</td>
                         </tr>
-                        <tr>
-                            <td><b>FECHA DE REGISTRO</b></td>
-                            <td class="text-left">{{timeago fecha_registro}}</td>
-                        </tr>
                     </table>
                 </div>
                 <div class="card-fotter text-center p-2">
-                    <button  value="{{id_empleos}}" class="btn btn-danger btn-delJob"><i class="fa fa-trash"></i>Eliminar empleo</button >
-                    <a href="/empleo/edit/{{id_empleos}}" class="btn btn-secondary"><i class="fa fa-edit"></i> Editar datos</a>
-                    <a href="/empleo/showSolEmpresa/{{id_empleos}}" class="btn btn-dark"><i class="fa fa-search"></i> Mostrar mas Información</a>
+                    <a href="/empleo/showSolEmpresa/{{id_empleos}}" class="btn btn-dark"><i class="fa fa-search"></i> Ver información detallada</a>
+                    <a href="/empleo/showAllSol/{{id_empleos}}" class="btn btn-secondary"><i class="fa fa-list"></i> Ver Todas las Solicitudes</a>
                 </div>
             </div>
             {{/each}}
             {{#unless empleos}}
                 <div class="card crd-prf">
                     <div class="card-body text-center">
-                        <h3>No has creado ningun empleo</h3>
+                        <h3>Usted no ha recibido ninguna solicitud</h3>
                         <hr style="background-color:white ;">
-                        <a href="/empleo/add" class="btn btn-dark">Agregar Empleo</a>
+                        <a href="/inicio" class="btn btn-dark"><i class="fa fa-home"></i> Volver al inicio</a>
                     </div>
                 </div>
             {{/unless}}

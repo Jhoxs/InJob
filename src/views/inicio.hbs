@@ -5,6 +5,8 @@
                 <div class="card-header text-center">
                     <h3>Bienvenido/a usuario</h3>
                     <h5>{{user.nombre}} {{user.apellido}}</h5>
+                    <h6 class="text-uppercase">{{user.rol}}</h6>
+
                 </div>
                 <div class="card-body  text-center">
                     <h5>Búsqueda</h5>
@@ -12,12 +14,12 @@
                     <form class="form-registro"  action="/usuarios/search" method="POST">
                         <div class="frm-group">
                             <p class="form-p text-center">Ingresa el nombre del empleo que estes buscando:</p>
-                            <input type="text"  id="fnBsq" name="empleo" placeholder="Búsqueda" maxlength="10" style="color: black;" required >  
+                            <input  type="text"  id="fnBsq" name="empleo" placeholder="Búsqueda" maxlength="10" style="color: black;" required >  
                         </div>
                         
                         <hr style="background-color: white;">
                         <div class="text-center">
-                            <button type="submit" class="btn btn-dark">Buscar</button>
+                         <button type="submit" class="btn btn-dark"><i class="fa fa-search"></i> Buscar</button>
                         </div>  
                     </form>
 

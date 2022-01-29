@@ -12,10 +12,21 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ml-auto">
         {{#if user}}
+        {{#esEmpresa user.rol}}
+        <li class="nav-item">
+          <a class="nav-link" href="/empleo/showSolEmpresa">
+          <i class="fa fa-user"  aria-hidden="true"></i> Solicitudes</a>
+        </li>
+        {{/esEmpresa}}
+        {{!Pestaña del perfil}}
+        <li class="nav-item">
+          <a class="nav-link" href="/perfil">
+          <i class="fa fa-id-badge"  aria-hidden="true"></i> Perfil</a>
+        </li>
         {{!pestaña de las opciones}}
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="false">
+            aria-haspopup="true" aria-expanded="false"> <i class="fa fa-th-large"></i>
           Opciones
           </a>
           {{#esEmpleado user.rol}}
@@ -26,17 +37,13 @@
           {{!Empresa}}
           {{#esEmpresa user.rol}}
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="/empleo/add">Agregar Empleo</a>
+            <a class="dropdown-item" href="/empleo/add"><i class="fa fa-folder-plus"></i> Agregar Empleo</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="/empleo/viewJobs">Ver mis empleos</a>
+            <a class="dropdown-item" href="/empleo/viewJobs"><i class="fa fa-folder"></i> Ver mis empleos</a>
           </div>
           {{/esEmpresa}}
         </li>
-        {{!Pestaña del perfil}}
-        <li class="nav-item">
-          <a class="nav-link" href="/perfil">
-          <i class="fa fa-id-badge"  aria-hidden="true"></i> Perfil</a>
-        </li>
+        
         {{#esAdmin user.rol}}
         {{!pestaña de usuarios}}
         <li class="nav-item dropdown">

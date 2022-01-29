@@ -3,7 +3,7 @@ const empCtrl = {}
 const { DateTime } = require('luxon');
 const pool = require('../controllers/database.controller');
 
-//metodo para mostrar pagina de registro
+//metodo para mostrar pagina de registro -- Empresa
 empCtrl.addEmpleoG = async(req,res)=>{
     try {
         const areas = await pool.query('SELECT * FROM area_trabajo');
@@ -17,7 +17,7 @@ empCtrl.addEmpleoG = async(req,res)=>{
     }
     
 }
-//guardar datos empleo
+//guardar datos empleo -- Empresa
 empCtrl.addEmpleoP = async(req,res) =>{
     const {nombre, area, sueldo, provincia, direccion, vencimiento, descripcion, requisitos} = req.body;
     const registro  = DateTime.now().toFormat('yyyy-LL-dd');
@@ -109,8 +109,10 @@ empCtrl.delEmp = async(req,res) =>{
     const {id} = req.params;
     const {cedula} = req.user;
     try {
-        const rows = await pool.query('DELETE FROM empleos WHERE id_empleos = ? AND id_empresa = ?',[id,cedula]);
+        //se verifica que exista el empleo antes de ser borrado
+        const rows = await pool.query('SELECT * FROM empleos WHERE id_empleos = ? AND id_empresa = ?',[id,cedula]);
         if(rows.length>0){
+            await pool.query('DELETE FROM empleos WHERE id_empleos = ? AND id_empresa = ?',[id,cedula]);
             req.flash('success','Se eliminaron los datos con exito');
             res.redirect('/empleo/viewJobs');
         }else{
@@ -122,8 +124,83 @@ empCtrl.delEmp = async(req,res) =>{
         res.redirect('/empleo/viewJobs');
     }
 }
+//Eliminar Solicitud -- Empresa
+empCtrl.delSolEmp = async (req,res) =>{
+    const {id} =  req.params;
+    const data = id.split('+');
+    //datos de la empresa
+    const {cedula} = req.user;
+    let sol = {
+        id_empleos: parseInt(data[0]),
+        id_empleado: parseInt(data[1]),
+        id_empresa: cedula
+    }
+    try {
+        //primero debemos verificar si los datos existen
+        const rows = await pool.query('SELECT * FROM empleado_empresa WHERE id_empleos = ? AND id_empleado = ? AND id_empresa = ?',[sol.id_empleos,sol.id_empleado,sol.id_empresa]);
+        //en caso de que exista coincidencia enviará un error
+        if(rows.length > 0) {
+            //eliminamos la solicitud
+            await pool.query('DELETE FROM empleado_empresa WHERE id_empleos = ? AND id_empleado = ? AND id_empresa = ?',[sol.id_empleos,sol.id_empleado,sol.id_empresa]);
+            req.flash('success','Se eliminó la solicitud con exito');
+            res.redirect('/empleo/showSolEmpresa/'+sol.id_empleos);
+        }else{
+            throw new Error ('Existe un error');
+        }
+        
+    } catch (error) {
+        console.log(error);
+        req.flash('message','Ocurrio un error');
+        res.redirect('/empleo/showSolEmpresa/'+sol.id_empleos);
+    }
 
-//mostrar los datos de los empleados
+}
+//mostrar solicitudes reccibidas -- Empresa
+empCtrl.showSolEmpresa = async(req,res) =>{
+    const {cedula} = req.user;
+    try {
+        const sol = await pool.query('SELECT e.id_empleos, e.nombre_empleo,  a.nombre_area, e.sueldo, e.fecha_vencimiento FROM empleos AS e , empleado_empresa AS ee, area_trabajo AS a WHERE ee.id_empresa = ? AND ee.id_empleos = e.id_empleos AND e.id_area = a.id_area GROUP BY e.id_empleos',[cedula]);
+        res.render('empleo/showSolEmpresa',{empleos:sol});
+    } catch (error) {
+        console.log(error);
+        req.flash('message','ocurrio un error');
+
+    }
+    
+}
+//mostrar detalles especificos de empresa -- Empresa
+empCtrl.showSolEmpresaDetalles = async(req,res) =>{
+    const {cedula} = req.user;
+    const {id} = req.params;
+    try {
+        //Informacion
+        const infoEmp = await pool.query('SELECT e.*, u.nombre, u.apellido, p.nombre_provincia, at.nombre_area FROM empleos AS e, area_trabajo AS at, usuario AS u, provincias AS p WHERE id_empleos = ? AND id_empresa = cedula AND e.id_provincia = p.id_provincia AND e.id_area = at.id_area',[id]);
+        //Solicitudes
+        const sol = await pool.query('SELECT u.cedula, u.nombre, u.apellido, ee.id_empleos FROM usuario AS u, empleado_empresa AS ee WHERE ee.id_empresa = ? AND ee.id_empleos = ? AND ee.id_empleado = u.cedula LIMIT 5 ',[cedula,id]);
+        res.render('empleo/infoEmpresa',{info:infoEmp[0],sol:sol});
+    } catch (error) {
+        console.log(error);
+        req.flash('message','ocurrio un error');
+    }
+}
+//mostrar todas las solicitudes recibidas 
+empCtrl.showAllSol = async(req,res) =>{
+    const {cedula} = req.user;
+    const {id} = req.params;
+    try {
+        //Informacion
+        const infoEmp = await pool.query('SELECT e.*, u.nombre, u.apellido, p.nombre_provincia, at.nombre_area FROM empleos AS e, area_trabajo AS at, usuario AS u, provincias AS p WHERE id_empleos = ? AND id_empresa = cedula AND e.id_provincia = p.id_provincia AND e.id_area = at.id_area',[id]);
+        //Solicitudes
+        const sol = await pool.query('SELECT u.cedula, u.nombre, u.apellido, ee.id_empleos FROM usuario AS u, empleado_empresa AS ee WHERE ee.id_empresa = ? AND ee.id_empleos = ? AND ee.id_empleado = u.cedula',[cedula,id]);
+        res.render('empleo/showAllSol',{info:infoEmp[0],sol:sol});
+    } catch (error) {
+        console.log(error);
+        req.flash('message','ocurrio un error');
+    }
+}
+
+//--Empleado
+//mostrar los datos de los empleados -- empleado
 empCtrl.showEmp = async(req,res) =>{
     const {cedula} = req.user;
     try {
@@ -181,7 +258,7 @@ empCtrl.sendSol = async(req,res) =>{
         res.redirect('/empleo/infoJob/'+sol.id_empleos);
     }
 }
-//proceso para eliminar la solicitud
+//Eliminar la solicitud -- empleado
 empCtrl.delSol = async(req,res) =>{
     const {id} =  req.params;
     const data = id.split('+');
