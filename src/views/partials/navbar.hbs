@@ -17,12 +17,19 @@
           <a class="nav-link" href="/empleo/showSolEmpresa">
           <i class="fa fa-user"  aria-hidden="true"></i> Solicitudes</a>
         </li>
+        {{!Pestaña del perfil--empresa}}
+        <li class="nav-item">
+          <a class="nav-link" href="/perfil/empresa">
+          <i class="fa fa-id-badge"  aria-hidden="true"></i> Perfil</a>
+        </li>
         {{/esEmpresa}}
-        {{!Pestaña del perfil}}
+        {{!Pestaña del perfil--empleado}}
+        {{#esEmpleado user.rol}}
         <li class="nav-item">
           <a class="nav-link" href="/perfil">
           <i class="fa fa-id-badge"  aria-hidden="true"></i> Perfil</a>
         </li>
+        {{/esEmpleado}}
         {{!pestaña de las opciones}}
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"

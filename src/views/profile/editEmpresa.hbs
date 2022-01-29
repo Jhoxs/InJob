@@ -1,0 +1,45 @@
+<div class="col-md-5 mx-auto" style="margin-top: 8px;">
+     <div class="card crd-prf">
+         <div class="card-header">
+             <h1 class="form-titulo text-center text-uppercase" >Agregar información adicional</h1>
+         </div>
+         <div class="card-body">
+        {{!Inicio FORM}}
+        {{#with info}}
+             <form class="form-registro" action="/perfil/editEmpresa" method="POST">
+                {{!grupo de ruc}}
+                <div class="frm-group">
+                    <label>Ruc empresa</label><br>
+                    <input value="{{ruc}}" type="text" name="ruc" placeholder="Ruc de la empresa" maxlength="10" required>
+                </div>
+                <hr>
+                {{!grupo mision}}
+                <div class="frm-group">
+                    <label>Mision</label><br>
+                    <textarea name="mision" class="form-control txt-trab text-left" placeholder="Ingresa la mision de la empresa" required>{{mision}}</textarea>
+                </div>
+                <hr>
+                {{!vision}}
+                <div class="frm-group">
+                    <label>Vision</label><br>
+                    <textarea name="vision"  class="form-control txt-trab text-left" placeholder="Ingresa la vision de la empresa" required>{{vision}}</textarea>
+                </div>
+                {{!certificados}}
+                <hr>
+                <div class="frm-group">
+                    <label>Certificados</label><br>
+                    <textarea name="certificados"  class="form-control txt-trab text-left" placeholder="Ingresa la vision de la empresa" required>{{certificados}}</textarea>
+                </div>
+                <hr style="background-color: white;">
+                <div class="text-center">
+                    <button onclick="location.href='/perfil/empresa'" type="button" class="btn btn-secondary">Atras</button>
+                    <button type="submit" class="btn btn-dark">Editar</button>
+                </div>
+            </form>
+        {{/with}}
+        {{!FIN FORM}}
+         </div>
+     </div>
+     
+    </div>
+</div>

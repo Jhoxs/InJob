@@ -244,9 +244,85 @@ profCtrl.delInfo = async(req,res) =>{
         console.log(error);
         res.redirect('/perfil');
     }
-    
-
-
 }
+
+//--EMPRESA
+profCtrl.renderEmpresa = async(req,res) =>{
+    const {cedula} = req.user;
+    try {
+        const perfil = await pool.query('SELECT * FROM usuario WHERE cedula = ?',[cedula]);
+        const infoAdd  = await pool.query('SELECT * FROM info_empresa WHERE id_empresa = ?',[cedula]);
+        res.render('profile/empresa',{perfil:perfil[0],infoAdd:infoAdd[0]});
+    } catch (error) {
+        if(error instanceof TypeError){
+            //Cierra sesion en caso de que el administrador haya modificado los datos
+            console.log(error);
+            req.flash('message','Vuelve a iniciar session');
+            res.render('err/errPerfil');
+        }else{
+            req.flash('message','Ocurrio un error al mostrar tus datos');
+            console.log(error);
+            res.redirect('/inicio');
+        }
+    }
+} 
+//Agregar informacion personal -- empresa
+profCtrl.addInfoEmpG = async(req,res) =>{
+    res.render('profile/addInfoEmp');
+}
+profCtrl.addInfoEmpP = async(req,res) =>{
+    const{ruc,mision,vision,certificados} =req.body
+    const {cedula} = req.user;
+    try {
+        let newInfo = {
+            id_empresa : cedula,
+            ruc,
+            mision,
+            vision,
+            certificados
+        }
+        await pool.query('INSERT INTO info_empresa SET ?',[newInfo]);
+        req.flash('success','Los datos se añadieron con exito');
+        res.redirect('/perfil/empresa');
+    } catch (error) {
+        console.log(error);
+        req.flash('message','Ha ocurrido un error');
+        res.redirect('/perfil/addInfoEmp');
+    } 
+}
+
+profCtrl.editEmpresaG = async(req,res) =>{
+    const {cedula} = req.user;
+    try {
+        const info = await pool.query('SELECT * FROM info_empresa WHERE id_empresa = ?',[cedula]);
+        res.render('profile/editEmpresa',{info:info[0]});
+    } catch (error) {
+        console.log(error);
+        req.flash('message','Ha ocurrido un error');
+        res.redirect('/perfil/empresa');
+    }
+}
+profCtrl.editEmpresaP = async(req,res) =>{
+    const{ruc,mision,vision,certificados} =req.body
+    const {cedula} = req.user;
+    try {
+        let newInfo = {
+            id_empresa : cedula,
+            ruc,
+            mision,
+            vision,
+            certificados
+        }
+        await pool.query('UPDATE info_empresa SET ? WHERE id_empresa = ?',[newInfo,cedula]);
+        req.flash('success','Los datos se actualizaron con exito');
+        res.redirect('/perfil/empresa');
+    } catch (error) {
+        console.log(error);
+        req.flash('message','Ha ocurrido un error');
+        res.redirect('/perfil/empresa');
+    }
+}
+
+
 
 module.exports = profCtrl;

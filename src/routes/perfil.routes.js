@@ -6,19 +6,26 @@ const validacion = require('../validators/user.validator');
 const profVal = require('../validators/perfil.validator');
 const vRol = require('../helpers/validaRol');
 
-//obtener la pagina de usuarios
-router.get('/',isLoggedIn,profCtrl.renderProf);
-
-//muestra el perfil de los empleados
+//obtener la pagina de usuarios -- empleados
+router.get('/',isLoggedIn,vRol.esEmpleado,profCtrl.renderProf);
+//obtener la pagina para empresa -- empresa
+router.get('/empresa',vRol.esEmpresa,profCtrl.renderEmpresa);
+//add inormacion adicional -- Empresa
+router.get('/addInfoEmp',vRol.esEmpresa,profCtrl.addInfoEmpG);
+router.post('/addInfoEmp',vRol.esEmpresa,validacion.validaInfoAddEmp,profCtrl.addInfoEmpP);
+//muestra el perfil de los empleados -- empresa
 router.get('/empleado/:id',isLoggedIn,vRol.esEmpresa,profCtrl.renderProfEmpleado);
 
-//modificar el perfil
+//modificar perfil -- empresa
+router.get('/editEmpresa',isLoggedIn,vRol.esEmpresa,profCtrl.editEmpresaG);
+router.post('/editEmpresa',isLoggedIn,vRol.esEmpresa,validacion.validaInfoAddEmp,profCtrl.editEmpresaP);
+//modificar el perfil--empleado
 router.get('/edit',isLoggedIn,profCtrl.renderProfEditG);
 router.post('/edit',isLoggedIn,validacion.validaPerfil,profCtrl.renderProfEditP);
 
-//agrega datos al pefil (informacion adicional)
+//agrega datos al pefil (informacion adicional) -- empleado
 router.post('/addValue/:id',profVal.validaInfoAcc,isLoggedIn,profCtrl.addInfo);
-//elimina los datos
+//elimina los datos -- empleado
 router.get('/delValue/:id',isLoggedIn,profCtrl.delInfo);
 
 

@@ -422,7 +422,32 @@ validacion.validaPerfil = [
   
 ];
 
+validacion.validaInfoAddEmp = [
+  check('ruc')
+    .notEmpty()
+    .withMessage('Debes llenar el campo')
+    .isNumeric()
+    .withMessage('Deben ser numeros')
+    .isLength({max:10})
+  ,
+  check('mision')
+    .notEmpty()
+    .withMessage('Debes llenar el campo')
+  ,
+  check('vision')
+    .notEmpty()
+    .withMessage('Debes llenar el campo')
+  ,
+  check('certificados')
+    .notEmpty()
+    .withMessage('Debes llenar el campo')
+  ,
+  (req,res,next) =>{
+    //console.log(req.body);
+    validateResult(req,res,next);
+  }
 
+];
 
 
 /*

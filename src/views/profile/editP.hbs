@@ -49,7 +49,12 @@
                         <input type="hidden" value="{{telefono}}" name="telefonoAct" >
                         <hr>
                         {{/with}}
+                        {{#esEmpresa user.rol}}
+                        <button onclick="location.href='/perfil/empresa'"  type="button" class="btn btn-secondary">Atras</button>
+                        {{/esEmpresa}}
+                        {{#esEmpleado}}
                         <button onclick="location.href='/perfil'"  type="button" class="btn btn-secondary">Atras</button>
+                        {{/esEmpleado}}
                         <button type="submit" class="btn btn-dark" >Guardar</button>
                     </form>
 

@@ -151,3 +151,48 @@ CREATE TABLE empleado_empresa(
 /*Cambios el las llaves foraneas empleado-empresas*/
 ALTER TABLE empleado_empresa DROP FOREIGN KEY empEmp_Fk1; 
 ALTER TABLE empleado_empresa ADD CONSTRAINT empEmp_Fk1 FOREIGN KEY (id_empleos) REFERENCES empleos (id_empleos) ON DELETE CASCADE ON UPDATE CASCADE;
+
+
+DROP TABLE IF EXISTS info_empresa;
+CREATE TABLE info_empresa(
+  id_infoEmp int (10) NOT NULL AUTO_INCREMENT,
+  id_empresa int(10) NOT NULL,
+  ruc int(10) NOT NULL,
+  mision text NOT NULL,
+  vision text NOT NULL,
+  certificados text NOT NULL,
+  /*llave primaria*/
+  PRIMARY KEY (id_infoEmp),
+  /*Llaves foraneas*/
+  CONSTRAINT infEmp_Fk1 FOREIGN KEY (id_empresa) REFERENCES usuario (cedula) ON DELETE CASCADE ON UPDATE CASCADE
+);
+/*Cambios el las llaves foraneas info-empresas*/
+ALTER TABLE info_empresa DROP FOREIGN KEY infEmp_Fk1; 
+ALTER TABLE info_empresa ADD CONSTRAINT infEmp_Fk1 FOREIGN KEY (id_empresa) REFERENCES usuario (cedula) ON DELETE CASCADE ON UPDATE CASCADE;
+
+
+DROP TABLE IF EXISTS cal_empresa;
+CREATE TABLE cal_empresa(
+  id_calEmp int(10) NOT NULL AUTO_INCREMENT,
+  id_empresa int(10) NOT NULL,
+  c1 tinyint (10) NOT NULL,
+  c2 tinyint (10) NOT NULL,
+  c3 tinyint (10) NOT NULL,
+  c4 tinyint (10) NOT NULL,
+  c5 tinyint (10) NOT NULL,
+  /*llave primaria*/
+  PRIMARY KEY (id_calEmp),
+  /*Llaves foraneas*/
+  CONSTRAINT calEmp_Fk1 FOREIGN KEY (id_empresa) REFERENCES info_empresa (id_empresa) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+DROP TABLE IF EXISTS rep_empresa;
+CREATE TABLE rep_empresa(
+  id_repEmp int(10) NOT NULL AUTO_INCREMENT,
+  id_empresa int(10) NOT NULL,
+  noReportes int(10) NOT NULL,
+  /*llave primaria*/
+  PRIMARY KEY (id_repEmp),
+  /*Llaves foraneas*/
+  CONSTRAINT repEmp_Fk1 FOREIGN KEY (id_empresa) REFERENCES info_empresa (id_empresa) ON DELETE CASCADE ON UPDATE CASCADE
+);
