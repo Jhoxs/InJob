@@ -72,10 +72,10 @@ app.use((req,res,next) => {
 //--Rutas
 app.use(require('./routes/index.routes'));
 app.use(require('./routes/auth.routes'));
-//app.use('/turnos',require('./routes/turnos'));
 app.use('/usuarios',require('./routes/user.routes'));
 app.use('/perfil',require('./routes/perfil.routes'));
 app.use('/empleo',require('./routes/empleo.routes'));
+app.use('/reporte',require('./routes/reporte.routes'));
 
 
 //--StaticFiles (public)

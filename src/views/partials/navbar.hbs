@@ -30,12 +30,33 @@
           <i class="fa fa-id-badge"  aria-hidden="true"></i> Perfil</a>
         </li>
         {{/esEmpleado}}
+        {{!ADMINISTRADOR}}
+        {{#esAdmin user.rol}}
+        {{!pestaña de usuarios}}
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false"><i class="fa fa-user"></i> Usuarios
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="/usuarios"><i class="fa fa-list"></i> Listar Usuarios</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="/usuarios/add"><i class="fa fa-user-plus"></i> Agregar usuarios</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="/usuarios/search"><i class="fa fa-search"></i> Buscar usuario</a>
+          </div>
+        </li>
+        {{/esAdmin}}
         {{!pestaña de las opciones}}
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
             aria-haspopup="true" aria-expanded="false"> <i class="fa fa-th-large"></i>
           Opciones
           </a>
+          {{#esAdmin user.rol}}
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="/reporte/viewList"> <i class="fa fa-exclamation-triangle"></i> Empresas Reportadas</a>
+          </div>
+          {{/esAdmin}}
           {{#esEmpleado user.rol}}
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
               <a class="dropdown-item" href="/empleo/showSol"> <i class="fa fa-folder"></i> Lista de solicitud empleos</a>
@@ -47,26 +68,13 @@
             <a class="dropdown-item" href="/empleo/add"><i class="fa fa-folder-plus"></i> Agregar Empleo</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="/empleo/viewJobs"><i class="fa fa-folder"></i> Ver mis empleos</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="/usuarios/nomina"><i class="fa fa-users"></i> Nomina empleados</a>
           </div>
           {{/esEmpresa}}
+          
         </li>
         
-        {{#esAdmin user.rol}}
-        {{!pestaña de usuarios}}
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="false">
-          Usuarios
-          </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="/usuarios">Listar Usuarios</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="/usuarios/add">Agregar usuarios</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="/usuarios/search">Buscar usuario</a>
-          </div>
-        </li>
-        {{/esAdmin}}
         {{!fin pestaña usuarios}}
         <li class="nav-item">
           <a class="nav-link" href="/logout"><i class="fa fa-door-open"></i> Cerrar Sesión</a>

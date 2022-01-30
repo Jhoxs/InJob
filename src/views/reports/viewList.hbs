@@ -1,0 +1,42 @@
+<div class="container p-2 mt-2">
+    <div class="row">
+        <div class="col-md-10 mx-auto">
+            <div class="card crd-prf">
+                <div class="card-header">
+                    <h3>EMPRESAS REPORTADAS</h3>
+                </div>
+                <div class="card-body">
+                    {{#if reporte}}
+                     <table class="table table-dark table-hover table-striped tbl-info">
+                        <thead>
+                            <tr>
+                                <th scope="col">Número de Reportes</th>
+                                <th scope="col">Nombre de la empresa</th>
+                                <th scope="col">Correo</th>
+                                <th scope="col">Teléfono</th>
+                                <th scope="col">Fecha de fundación</th>
+                                <th scope="col" colspan="2" class="text-center">Opciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each reporte}}
+                            <tr>
+                                <td>{{cRep}}</td>
+                                <td>{{nombre}}{{apellido}}</td>
+                                <td>{{correo}}</td>
+                                <td>{{telefono}}</td>
+                                <td>{{timeAct nacimiento}}</td>
+                                <td class="text-right"><a title="ver lista detallada" href="/reporte/viewList/{{cedula}}" class="btn btn-dark btn-block"><i class="fa fa-list"></i></a></td>
+                                <td class="text-left"><a title="ver información de la empresa" href="/reporte/viewEmpresa/{{cedula}}" class="btn btn-secondary btn-block"><i class="fa fa-address-book"></i></a></td>
+                            </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                    {{else}}
+                    <h3>No han reportado a ninguna empresa</h3>
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

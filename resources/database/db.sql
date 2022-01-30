@@ -196,3 +196,17 @@ CREATE TABLE rep_empresa(
   CONSTRAINT repEmp_Fk1 FOREIGN KEY (id_empresa) REFERENCES usuario (cedula) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT repEmp_Fk2 FOREIGN KEY (id_empleado) REFERENCES usuario (cedula) ON DELETE CASCADE ON UPDATE CASCADE
 );
+
+/*nomina empleados*/
+DROP TABLE IF EXISTS nomina;
+CREATE TABLE nomina(
+  id_nomina int(10) NOT NULL AUTO_INCREMENT,
+  id_empleado int(10) NOT NULL,
+  id_empresa int(10) NOT NULL,
+  nombre_empleo varchar(30) NOT NULL,
+  /*llave primaria*/
+  PRIMARY KEY (id_nomina),
+  /*Llaves foraneas*/
+  CONSTRAINT nom_Fk1 FOREIGN KEY (id_empresa) REFERENCES usuario (cedula) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT nom_Fk2 FOREIGN KEY (id_empleado) REFERENCES usuario (cedula) ON DELETE CASCADE ON UPDATE CASCADE
+);

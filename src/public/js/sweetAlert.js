@@ -248,3 +248,34 @@ $('.btn-delSEmp').click((e)=>{
       } 
     })
 })
+
+$('.btn-accEmp').click((e)=>{
+  //e.target.value elige el valor que esta dentro del arreglo de valores
+  let link = e.target.value;
+  const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-primary',
+        cancelButton: 'btn btn-danger m-2'
+      },
+      buttonsStyling: false
+  })
+    
+  swalWithBootstrapButtons.fire({
+      title: '¿Estás seguro que deseas aceptar esta solicitud?',
+      text: "Esta acción aceptará al usuario y este será notificado por correo, además se eliminará la oferta de empleo.",
+      icon: 'question',
+      background:'#3e3a49',
+      color:'white',
+      allowOutsideClick: false,
+      allowEscapeKey: true,
+      showCancelButton: true,
+      confirmButtonText: 'Si, Aceptar!',
+      cancelButtonText: ' No, Cancelalo!',
+      reverseButtons: true
+    }).then((result) => {//el resultado de presionar ok
+      if (result.isConfirmed) {
+          //redirecciona a la ruta delete/:id<-(e)
+          window.location.href = '/empleo/accept/'+link;
+      } 
+    })
+})

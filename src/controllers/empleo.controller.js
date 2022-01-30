@@ -2,6 +2,8 @@ const empCtrl = {}
 
 const { DateTime } = require('luxon');
 const pool = require('../controllers/database.controller');
+const plantilla = require('../lib/plantillasHTML');
+const {enviarCorreo} = require('../config/nodemailer.config');
 
 //metodo para mostrar pagina de registro -- Empresa
 empCtrl.addEmpleoG = async(req,res)=>{
@@ -159,7 +161,7 @@ empCtrl.delSolEmp = async (req,res) =>{
 empCtrl.showSolEmpresa = async(req,res) =>{
     const {cedula} = req.user;
     try {
-        const sol = await pool.query('SELECT e.id_empleos, e.nombre_empleo,  a.nombre_area, e.sueldo, e.fecha_vencimiento FROM empleos AS e , empleado_empresa AS ee, area_trabajo AS a WHERE ee.id_empresa = ? AND ee.id_empleos = e.id_empleos AND e.id_area = a.id_area GROUP BY e.id_empleos',[cedula]);
+        const sol = await pool.query('SELECT COUNT(e.id_empleos) AS totalSol, e.id_empleos, e.nombre_empleo,  a.nombre_area, e.sueldo, e.fecha_vencimiento FROM empleos AS e , empleado_empresa AS ee, area_trabajo AS a WHERE ee.id_empresa = ? AND ee.id_empleos = e.id_empleos AND e.id_area = a.id_area GROUP BY e.id_empleos',[cedula]);
         res.render('empleo/showSolEmpresa',{empleos:sol});
     } catch (error) {
         console.log(error);
@@ -248,6 +250,9 @@ empCtrl.sendSol = async(req,res) =>{
         const rows = await pool.query('SELECT * FROM empleado_empresa WHERE id_empleos = ? AND id_empleado = ? AND id_empresa = ?',[sol.id_empleos,sol.id_empleado,sol.id_empresa]);
         //en caso de que exista coincidencia enviará un error
         if(rows.length > 0) throw new Error('No puedes volver a enviar el empleo aquí');
+        //verificamos que no se encuentre en una nomina 
+        const nomina = await pool.query('SELECT * FROM nomina WHERE id_empleado = ?',[sol.id_empleado]);
+        if(nomina.length > 0) throw new Error('Ya se encuentra en la nomina');
         //insertamos la solicitud
         await pool.query('INSERT INTO empleado_empresa SET ?',sol);
         req.flash('success','Se envió la solicitud con exito');
@@ -302,6 +307,7 @@ empCtrl.showSol = async(req,res) =>{
 }
 //busca el empleo
 empCtrl.searchEmp = async(req,res) =>{
+    const {empleo} = req.body;
     try {
         const result = await pool.query('SELECT e.*, u.nombre, u.apellido FROM empleos AS e, usuario AS u WHERE nombre_empleo = ? AND e.id_empresa = u.cedula',[empleo]);
         res.render('empleo/searchEmp',{resEmp:result});
@@ -311,5 +317,67 @@ empCtrl.searchEmp = async(req,res) =>{
         res.redirect('/inicio');
     }
 }
+
+
+//aceptar empleo
+empCtrl.accept = async(req,res) =>{
+    const {id} = req.params;
+    const {cedula} = req.user;
+    const data = id.split('+');
+    
+    //info user
+    const iU = {
+        id_empleado: data[1],
+        id_empresa: cedula
+    }
+    try {
+        //verificamos si podemos ingresar en este enlace y extraemos el nombre del empleo
+        const rows = await pool.query('SELECT ee.*, e.nombre_empleo FROM empleado_empresa AS ee, empleos AS e WHERE ee.id_empleado = ? AND ee.id_empresa = ?',[iU.id_empleado,iU.id_empresa]);
+        if(rows.length > 0){
+            //verificamos que no exista en la nomina
+            const nomina = await pool.query('SELECT * FROM nomina WHERE id_empleado = ? AND id_empresa = ?',[iU.id_empleado,iU.id_empresa]);
+            if(nomina.length > 0){
+                req.flash('message','Usted ya se encuentra en la nomina');
+                res.redirect('/perfil/empleado/'+id); 
+            }else{
+                //agregamos al usuario a la nomina
+                Object.assign(iU,{nombre_empleo: rows[0].nombre_empleo});
+                //insertamos los datos en la nomina
+                await pool.query('INSERT INTO nomina SET ?',iU);
+                //buscamos el correo electronico
+                //iformacion del trabajador
+                const iT = await pool.query('SELECT nombre, apellido, correo FROM usuario WHERE cedula = ?',[iU.id_empleado]);
+                //informacion de la emplresa
+                const iE = await pool.query('SELECT nombre, apellido, correo FROM usuario WHERE cedula = ?',[iU.id_empresa]);
+                //empaquetamos la informacion
+                const mailOptions = {
+                    from: "INJOB <injobprueba@gmail.com>",
+                    to: iT[0].correo,
+                    subject: "Notificacion de aceptación",
+                    html: plantilla.msjAceptacion(iT[0].nombre,iT[0].apellido,iE[0].nombre,iE[0].apellido,iU.nombre_empleo)
+                }
+                //enviamos la información por correo electrónico
+                await enviarCorreo(mailOptions)
+                        .then((result)=>{console.log('Envio exitoso del correo actual')})
+                        .catch((e)=>{console.log(e)}); 
+                //eliminamos la oferta de trabajo
+                await pool.query('DELETE FROM empleos WHERE id_empleos = ? AND id_empresa = ?',[data[0],iU.id_empresa]);
+                //eliminamos las solicitudes del trabajador
+                await pool.query('DELETE FROM empleado_empresa WHERE id_empleado = ? AND id_empresa = ?',[iU.id_empleado,iU.id_empresa]);
+                req.flash('success','Se acepto al empleado correctamente');
+                res.redirect('/inicio'); 
+            }
+            
+        }else{
+            res.render('err/404');
+        }
+        
+
+    } catch (error) {
+        console.log(error)
+        res.redirect('/perfil/empleado/'+id); 
+    }
+}
+
 
 module.exports = empCtrl;

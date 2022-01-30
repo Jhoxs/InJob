@@ -169,6 +169,18 @@ userCtrl.searchP = async(req,res) =>{
     
 }
 
+userCtrl.showNomina = async(req,res) =>{
+    const {cedula} = req.user;
+    try {
+        const nomina = await pool.query('SELECT u.cedula, u.nombre, u.apellido, u.correo, u.telefono, n.nombre_empleo FROM nomina AS n,usuario AS u WHERE n.id_empresa = ? AND n.id_empleado = u.cedula',[cedula]);
+        res.render('users/nomina',{nomina});
+        
+    } catch (error) {
+        console.log(error)
+        req.flash('message','Ocurrio un error ');
+        res.redirect('/inicio');
+    }
+}
 
 
 module.exports = userCtrl;

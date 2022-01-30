@@ -40,7 +40,6 @@ indexCtrl.viewListRec = async (req,res) => {
     try {
         //todos los empleos
         const empleos = await pool.query('SELECT u.nombre, u.apellido,id_empresa ,id_empleos, nombre_empleo, sueldo, at.nombre_area, fecha_vencimiento, fecha_registro FROM usuario AS u, empleos AS e, area_trabajo AS at WHERE e.id_area = at.id_area AND u.cedula = id_empresa ORDER BY fecha_registro ASC');
-        console.log(empleos);
         res.render('empleo/viewListRec',{title:'inicio',empleos});
     } catch (error) {
         console.log(error);

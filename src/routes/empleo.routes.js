@@ -23,8 +23,10 @@ router.get('/viewJobs',isLoggedIn,vRol.esEmpresa,empCtrl.showEmp);
 router.get('/showSolEmpresa',isLoggedIn,vRol.esEmpresa,empCtrl.showSolEmpresa);
 router.get('/showSolEmpresa/:id',isLoggedIn,vRol.esEmpresa,empCtrl.showSolEmpresaDetalles);
 router.get('/showAllSol/:id',isLoggedIn,vRol.esEmpresa,empCtrl.showAllSol);
+//aceptar empleo --empresa
+router.get('/accept/:id',isLoggedIn,vRol.esEmpresa,empCtrl.accept);
 //muestra el empleo seleccionado
-router.get('/infoJob/:id',isLoggedIn,vRol.esEmpleado,empCtrl.showInfo);
+router.get('/infoJob/:id',isLoggedIn,empCtrl.showInfo);
 
 //envia solicitud empleo -- empleado
 router.get('/sendSol/:id',isLoggedIn,vRol.esEmpleado,empCtrl.sendSol);

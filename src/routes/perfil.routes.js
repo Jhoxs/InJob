@@ -16,7 +16,7 @@ router.post('/addInfoEmp',vRol.esEmpresa,validacion.validaInfoAddEmp,profCtrl.ad
 //muestra el perfil de los empleados -- empresa
 router.get('/empleado/:id',isLoggedIn,vRol.esEmpresa,profCtrl.renderProfEmpleado);
 //muestra el perfil de las empresas -- empleado
-router.get('/empresa/:id',isLoggedIn,vRol.esEmpleado,profCtrl.renderProfEmpresa);
+router.get('/empresa/:id',isLoggedIn,profCtrl.renderProfEmpresa);
 
 //modificar perfil -- empresa
 router.get('/editEmpresa',isLoggedIn,vRol.esEmpresa,profCtrl.editEmpresaG);

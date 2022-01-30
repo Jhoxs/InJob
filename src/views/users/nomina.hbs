@@ -1,0 +1,39 @@
+<div class="container p-2 mt-2">
+    <div class="row">
+        <div class="col-md-10 mx-auto">
+            <div class="card crd-prf">
+                <div class="card-header text-center">
+                    <h3>NOMINA DE TRABAJADORES</h3>
+                </div>
+                <div class="card-body">
+                    {{#if nomina}}
+                     <table class="table table-dark table-hover table-striped tbl-info">
+                        <thead>
+                            <tr>
+                                <th scope="col">Cédula</th>
+                                <th scope="col">Nombre Empleado</th>
+                                <th scope="col">Nombre del puesto</th>
+                                <th scope="col">Correo</th>
+                                <th scope="col">Teléfono</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#each nomina}}
+                            <tr>
+                                <td>{{cedula}}</td>
+                                <td>{{nombre}}{{apellido}}</td>
+                                <td>{{nombre_empleo}}</td>
+                                <td>{{correo}}</td>
+                                <td>{{telefono}}</td>
+                            </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                    {{else}}
+                    <h3 class="text-center">No han agregado ningun empleado</h3>
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

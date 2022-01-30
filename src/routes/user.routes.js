@@ -24,7 +24,8 @@ router.post('/edit/:id',isLoggedIn,vRol.esAdmin,validacion.validateEditAdmin,use
 router.get('/search',isLoggedIn,vRol.esAdmin,userCtrl.searchG);
 router.post('/search',isLoggedIn,vRol.esAdmin,validacion.validaBsq,userCtrl.searchP);
 
-
+//realiza una nomina
+router.get('/nomina',isLoggedIn,vRol.esEmpresa,userCtrl.showNomina);
 
 
 module.exports = router;

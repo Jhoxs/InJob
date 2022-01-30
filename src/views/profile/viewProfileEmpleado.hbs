@@ -44,7 +44,7 @@
                     <a href="/empleo/showSolEmpresa/{{id_empleos}}" class="btn btn-dark mb-2 btn-block"><i class="fa fa-search"></i> Volver a información detallada</a>
                     <a href="/empleo/showAllSol/{{id_empleos}}" class="btn btn-secondary mb-2 btn-block"><i class="fa fa-list"></i> Volver a lista de solicitudes</a>
                     <hr style="background-color: rgba(255, 255, 255, 0.253);">
-                    <a href="" class="btn btn-success mb-2 btn-block"><i class="fa fa-check-circle"></i> Aceptar Solicitud de {{nombre}} {{apellido}}</a>
+                    <button value="{{id_empleos}}+{{cedula}}" class="btn btn-success mb-2 btn-block btn-accEmp"><i class="fa fa-check-circle"></i> Aceptar Solicitud de {{nombre}} {{apellido}}</button>
                     <button value="{{id_empleos}}+{{cedula}}" class="btn btn-danger btn-delSEmp btn-block"><i class="fa fa-trash"></i> Eliminar Solicitud</button>
                 </div>
             </div> 

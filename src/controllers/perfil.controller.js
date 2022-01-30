@@ -1,7 +1,8 @@
 const profCtrl = {}
 const pool = require('./database.controller');
 const { DateTime } = require('luxon');
-
+const {enviarCorreo} =require('../config/nodemailer.config');
+const plantilla = require('../lib/plantillasHTML');
 
 //toISOString() nos presenta en un formato ISO
 //toLocaleDateString() nos presenta en un formato dd/mm/aa
@@ -184,8 +185,6 @@ profCtrl.renderProfEditP = async(req,res) => {
             nacimiento,
             sexo
         }
-        console.log(req.user);
-        console.log(profUser);
         //actualiza mis datos en la base de datos
         await pool.query('UPDATE usuario SET ? WHERE cedula = ?',[profUser,req.body.cedulaAct]);
         req.user.cedula = profUser.cedula;
@@ -381,19 +380,37 @@ profCtrl.editEmpresaP = async(req,res) =>{
 profCtrl.reportEmpresaP = async(req,res) =>{
     const {id} = req.params;
     const {reporte} = req.body;
-    const {cedula} = req.user;
+    const {cedula,nombre,apellido} = req.user;
     const data = id.split('+');
     let newReporte = {
         id_empresa: parseInt(data[1]),
         id_empleado: cedula,
         comentario: reporte
     }
+    const u = {
+        nombre,
+        apellido
+    }
     try {
+        const rows = await pool.query('SELECT correo, nombre FROM usuario WHERE cedula = ?',[newReporte.id_empresa]);
         await pool.query('INSERT INTO rep_empresa SET ?',newReporte);
+        //creamos un paquete para enviar el correo
+        if(rows.length > 0){
+            const mailOptions = {
+                from: "INJOB <injobprueba@gmail.com>",
+                to: rows[0].correo,
+                subject: "Notificacion",
+                html: plantilla.msjReporte(rows[0].nombre,newReporte.comentario,u.nombre,u.apellido)
+            }
+            //enviamos el correo
+            await enviarCorreo(mailOptions)
+                    .then((result)=>{console.log('Envio exitoso del correo actual')})
+                    .catch((e)=>{console.log(e)}); 
+        }
         req.flash('success','Su reporte se registro con exito');
         res.redirect('/perfil/empresa/'+data[0]+'+'+newReporte.id_empresa);
     } catch (error) {
-        console.log('error');
+        console.log(error);
         req.flash('message','Ha ocurrido un error');
         res.redirect('/perfil/empresa/'+data[0]+'+'+newReporte.id_empresa);
     }

@@ -33,18 +33,24 @@
                         OPCIONES
                     </h3>
                 </div>
+                {{#if vista}}
+                <div class="card-body">
+                    <a href="/reporte/viewList" class="btn btn-secondary btn-block"><i class="fa fa-list"></i> Volver a la lista</a>
+                </div>
+                {{else}}
                 <div class="card-body">
                     <a href="/empleo/infoJob/{{perfil.id_empleos}}" class="btn btn-secondary mb-2 btn-block"><i class="fa fa-info-circle"></i> Volver a información de empleo {{nombre}} {{apellido}}</a>
                     <a href="/viewListRec" class="btn btn-secondary btn-block"><i class="fa fa-list"></i> Volver a lista de empleos</a>
-                    {{#unless calificacion}}
-                    <button value="{{perfil.id_empleos}}+{{perfil.cedula}}" id="btn-valEmp" class="btn btn-warning btn-block" style="color: white;"><i class="fa fa-star"></i>Valorar empresa</button>
-                    {{/unless}}
                     {{#unless reporte}}
                     <hr style="background-color: rgba(255, 255, 255, 0.253);">
                     <button value="{{perfil.id_empleos}}+{{perfil.cedula}}" id="btn-repEmp" class="btn btn-danger btn-block"><i class="fa fa-exclamation-triangle"></i> Reportar empresa</button>
+                    {{/unless}}
+                    {{#unless calificacion}}
+                    <button value="{{perfil.id_empleos}}+{{perfil.cedula}}" id="btn-valEmp" class="btn btn-warning btn-block" style="color: white;"><i class="fa fa-star"></i>Valorar empresa</button>
                     {{/unless}} 
                     
                 </div>
+                {{/if}}
             </div>
             {{!Fin card opciones}}
             {{else}}

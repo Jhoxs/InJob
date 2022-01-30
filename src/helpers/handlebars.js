@@ -20,7 +20,7 @@ Handlebars.registerHelper("esEmpresa",(rol,options)=>{
     }
 })
 Handlebars.registerHelper("esEmpleado",(rol,options)=>{
-    if(rol === 'empleado'){
+    if(rol === 'empleado'|| rol === "administrador" ){
         return options.fn(this);
     }
 })
