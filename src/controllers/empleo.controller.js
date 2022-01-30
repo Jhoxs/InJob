@@ -300,5 +300,16 @@ empCtrl.showSol = async(req,res) =>{
         res.redirect('/inicio');
     }
 }
+//busca el empleo
+empCtrl.searchEmp = async(req,res) =>{
+    try {
+        const result = await pool.query('SELECT e.*, u.nombre, u.apellido FROM empleos AS e, usuario AS u WHERE nombre_empleo = ? AND e.id_empresa = u.cedula',[empleo]);
+        res.render('empleo/searchEmp',{resEmp:result});
+    } catch (error) {
+        console.log(error);
+        req.flash('message','Ocurrio un error');
+        res.redirect('/inicio');
+    }
+}
 
 module.exports = empCtrl;

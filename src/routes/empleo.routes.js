@@ -33,5 +33,7 @@ router.get('/deleteSol/:id',isLoggedIn,vRol.esEmpleado,empCtrl.delSol)
 //muestra los empleos a los que se envio solicitud --empleado
 router.get('/showSol',isLoggedIn,vRol.esEmpleado,empCtrl.showSol);
 
+//buscar empleo
+router.post('/searchEmpleo',isLoggedIn,empCtrl.searchEmp);
 
 module.exports = router;

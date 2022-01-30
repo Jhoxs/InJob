@@ -102,7 +102,55 @@ profCtrl.renderProfEmpleado = async(req,res) =>{
         }
     }
 }
-
+//render profile empresa
+//Muestra el perfil de las empresas al -- empleado
+profCtrl.renderProfEmpresa = async(req,res) =>{
+    const {id} =  req.params;
+    const data = id.split('+');
+    //datos de la empresa
+    const {cedula} = req.user;
+    let sol = {
+        id_empleos: parseInt(data[0]),
+        id_empresa: parseInt(data[1]),
+        id_empleado: cedula
+    }
+    let reporte = false;
+    let calificacion = false;
+    try {
+        const perfil = await pool.query('SELECT * FROM usuario WHERE cedula = ?',[sol.id_empresa]);
+        const infoAdd  = await pool.query('SELECT * FROM info_empresa WHERE id_empresa = ?',[sol.id_empresa]);
+        //verificamos si el usuario ya reportó
+        const rows = await pool.query('SELECT * FROM rep_empresa WHERE id_empleado = ? AND id_empresa = ?',[sol.id_empleado,sol.id_empresa]);
+        if(rows.length > 0){
+            reporte = true;
+        }
+        //verificamos si el usuario ya calificó
+        const rowsCali = await pool.query('SELECT * FROM cal_empresa WHERE id_empleado = ? AND id_empresa = ?',[sol.id_empleado,sol.id_empresa]);
+        if(rowsCali.length > 0){
+            calificacion = true;
+        }
+        //mostramos la sumatoria de calificaciones
+        const sumPuntaje = await pool.query('SELECT SUM(calificacion) AS res FROM cal_empresa WHERE id_empresa = ?',[sol.id_empresa]);
+        if(sumPuntaje.length == 0){
+            sumPuntaje[0] = 0;
+        }
+        const sumReportes = await pool.query('SELECT id_repEmp FROM rep_empresa WHERE id_empresa = ?',[sol.id_empresa]);
+        //mostramos la sumatoria de reportes
+        Object.assign(perfil[0],{id_empleos:sol.id_empleos});
+        res.render('profile/viewProfileEmpresa',{perfil:perfil[0],infoAdd:infoAdd[0],reporte,calificacion,valoracion:sumPuntaje[0],numRep:sumReportes.length});
+    } catch (error) {
+        if(error instanceof TypeError){
+            //Cierra sesion en caso de que el administrador haya modificado los datos
+            console.log(error);
+            req.flash('message','Vuelve a iniciar session');
+            res.render('err/errPerfil');
+        }else{
+            req.flash('message','Ocurrio un error al mostrar tus datos');
+            console.log(error);
+            res.redirect('/inicio');
+        }
+    }
+}
 
 //metodo get para editar el perfil del usuario ----
 profCtrl.renderProfEditG = async(req,res) => {
@@ -252,7 +300,13 @@ profCtrl.renderEmpresa = async(req,res) =>{
     try {
         const perfil = await pool.query('SELECT * FROM usuario WHERE cedula = ?',[cedula]);
         const infoAdd  = await pool.query('SELECT * FROM info_empresa WHERE id_empresa = ?',[cedula]);
-        res.render('profile/empresa',{perfil:perfil[0],infoAdd:infoAdd[0]});
+        //hacemos la sumatoria para obtener la valoracion de la empresa
+        const sumPuntaje = await pool.query('SELECT SUM(calificacion) AS res FROM cal_empresa WHERE id_empresa = ?',[cedula]);
+        if(sumPuntaje.length == 0){
+            sumPuntaje[0] = 0;
+        }
+        const reportes = await pool.query('SELECT id_repEmp FROM rep_empresa WHERE id_empresa = ?',[cedula]);
+        res.render('profile/empresa',{perfil:perfil[0],infoAdd:infoAdd[0],valoracion:sumPuntaje[0],numRep:reportes.length});
     } catch (error) {
         if(error instanceof TypeError){
             //Cierra sesion en caso de que el administrador haya modificado los datos
@@ -323,6 +377,48 @@ profCtrl.editEmpresaP = async(req,res) =>{
     }
 }
 
+//reportar empresa
+profCtrl.reportEmpresaP = async(req,res) =>{
+    const {id} = req.params;
+    const {reporte} = req.body;
+    const {cedula} = req.user;
+    const data = id.split('+');
+    let newReporte = {
+        id_empresa: parseInt(data[1]),
+        id_empleado: cedula,
+        comentario: reporte
+    }
+    try {
+        await pool.query('INSERT INTO rep_empresa SET ?',newReporte);
+        req.flash('success','Su reporte se registro con exito');
+        res.redirect('/perfil/empresa/'+data[0]+'+'+newReporte.id_empresa);
+    } catch (error) {
+        console.log('error');
+        req.flash('message','Ha ocurrido un error');
+        res.redirect('/perfil/empresa/'+data[0]+'+'+newReporte.id_empresa);
+    }
+}
 
+//valorar la empresa
+profCtrl.valorarEmpresaP = async (req,res) =>{
+    const {id} = req.params;
+    const {valoracion} = req.body;
+    const {cedula} = req.user;
+    const data = id.split('+');
+    let newCali = {
+        id_empresa: parseInt(data[1]),
+        id_empleado: cedula,
+        calificacion: valoracion
+    }
+    try {
+        await pool.query('INSERT INTO cal_empresa SET ?',newCali);
+        req.flash('success','Se ha registrado su calificación con exito');
+        res.redirect('/perfil/empresa/'+id);
+    } catch (error) {
+        console.log('error');
+        req.flash('message','Ha ocurrido un error');
+        res.redirect('/perfil/empresa/'+id);
+    }
+}
 
 module.exports = profCtrl;

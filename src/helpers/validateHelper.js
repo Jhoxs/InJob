@@ -41,6 +41,25 @@ const validateResultURL =  (req, res, next) => {
     }
 }
 
+const validateValoracion =  (req, res, next) => {
+    const {id} = req.params;
+    try {
+        validationResult(req).throw();
+        return next()
+
+    } catch (err) {
+        const errores = validationResult(req).errors;
+        console.log('----ERRORES-----');
+        console.log(errores);
+        //recorre y muestra todos los errores
+        for(let i in errores){
+            req.flash('message',errores[i].msg);
+        }
+        //me redirecciona a  la url que obtiene
+        res.redirect('/perfil/empresa/'+id);  
+    }
+}
+
 const validateDel = (req,res,next) =>{
     try {
         validationResult(req).throw();
@@ -83,4 +102,4 @@ const validateCedula = (cedula) =>{
 }
 
 
-module.exports = { validateResult , validateCedula, validateResultURL,validateDel}
+module.exports = { validateResult , validateCedula, validateResultURL,validateDel,validateValoracion}

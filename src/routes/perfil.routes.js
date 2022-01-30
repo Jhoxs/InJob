@@ -15,6 +15,8 @@ router.get('/addInfoEmp',vRol.esEmpresa,profCtrl.addInfoEmpG);
 router.post('/addInfoEmp',vRol.esEmpresa,validacion.validaInfoAddEmp,profCtrl.addInfoEmpP);
 //muestra el perfil de los empleados -- empresa
 router.get('/empleado/:id',isLoggedIn,vRol.esEmpresa,profCtrl.renderProfEmpleado);
+//muestra el perfil de las empresas -- empleado
+router.get('/empresa/:id',isLoggedIn,vRol.esEmpleado,profCtrl.renderProfEmpresa);
 
 //modificar perfil -- empresa
 router.get('/editEmpresa',isLoggedIn,vRol.esEmpresa,profCtrl.editEmpresaG);
@@ -28,7 +30,9 @@ router.post('/addValue/:id',profVal.validaInfoAcc,isLoggedIn,profCtrl.addInfo);
 //elimina los datos -- empleado
 router.get('/delValue/:id',isLoggedIn,profCtrl.delInfo);
 
-
-
+//Enviar reporte
+router.post('/reportar/:id',isLoggedIn,vRol.esEmpleado,profVal.reporte,profCtrl.reportEmpresaP);
+//valorar empleo
+router.post('/valorar/:id',isLoggedIn,vRol.esEmpleado,profVal.valoracion,profCtrl.valorarEmpresaP);
 
 module.exports = router;

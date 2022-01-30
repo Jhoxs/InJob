@@ -43,7 +43,7 @@
                 <div class="card-body">
                     <a href="/empleo/showSolEmpresa/{{id_empleos}}" class="btn btn-dark mb-2 btn-block"><i class="fa fa-search"></i> Volver a información detallada</a>
                     <a href="/empleo/showAllSol/{{id_empleos}}" class="btn btn-secondary mb-2 btn-block"><i class="fa fa-list"></i> Volver a lista de solicitudes</a>
-                    <hr>
+                    <hr style="background-color: rgba(255, 255, 255, 0.253);">
                     <a href="" class="btn btn-success mb-2 btn-block"><i class="fa fa-check-circle"></i> Aceptar Solicitud de {{nombre}} {{apellido}}</a>
                     <button value="{{id_empleos}}+{{cedula}}" class="btn btn-danger btn-delSEmp btn-block"><i class="fa fa-trash"></i> Eliminar Solicitud</button>
                 </div>
@@ -52,11 +52,16 @@
         
         {{/with}}
         {{else}}
-        <div class="col-md-4 mx-auto">
-            <div class="card card-body text-center">
-                <h4>Hubo un error al mostrar su perfil</h4>
-                <hr>
-                <a  class="btn btn-primary m-3" href="/inicio">Volver al inicio</a>
+        <div class="col-md-5 mx-auto">
+            <div class="card crd-prf text-center">
+                <div class="card-header">
+                    <h3>Error</h3>
+                </div>
+                <div class="card-body">
+                    <h4>Hubo un error al mostrar su perfil</h4>
+                    <hr>
+                    <a  class="btn btn-primary m-3" href="/inicio">Volver al inicio</a>
+                </div>
             </div>
         </div>
         {{/if}}

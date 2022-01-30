@@ -175,24 +175,24 @@ DROP TABLE IF EXISTS cal_empresa;
 CREATE TABLE cal_empresa(
   id_calEmp int(10) NOT NULL AUTO_INCREMENT,
   id_empresa int(10) NOT NULL,
-  c1 tinyint (10) NOT NULL,
-  c2 tinyint (10) NOT NULL,
-  c3 tinyint (10) NOT NULL,
-  c4 tinyint (10) NOT NULL,
-  c5 tinyint (10) NOT NULL,
+  id_empleado int(10) NOT NULL,
+  calificacion tinyint(20) NOT NULL,
   /*llave primaria*/
   PRIMARY KEY (id_calEmp),
   /*Llaves foraneas*/
-  CONSTRAINT calEmp_Fk1 FOREIGN KEY (id_empresa) REFERENCES info_empresa (id_empresa) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT calEmp_Fk1 FOREIGN KEY (id_empresa) REFERENCES usuario (cedula) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT calEmp_Fk2 FOREIGN KEY (id_empleado) REFERENCES usuario (cedula) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 DROP TABLE IF EXISTS rep_empresa;
 CREATE TABLE rep_empresa(
   id_repEmp int(10) NOT NULL AUTO_INCREMENT,
   id_empresa int(10) NOT NULL,
-  noReportes int(10) NOT NULL,
+  id_empleado int(10) NOT NULL,
+  comentario text(10) NOT NULL,
   /*llave primaria*/
   PRIMARY KEY (id_repEmp),
   /*Llaves foraneas*/
-  CONSTRAINT repEmp_Fk1 FOREIGN KEY (id_empresa) REFERENCES info_empresa (id_empresa) ON DELETE CASCADE ON UPDATE CASCADE
+  CONSTRAINT repEmp_Fk1 FOREIGN KEY (id_empresa) REFERENCES usuario (cedula) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT repEmp_Fk2 FOREIGN KEY (id_empleado) REFERENCES usuario (cedula) ON DELETE CASCADE ON UPDATE CASCADE
 );

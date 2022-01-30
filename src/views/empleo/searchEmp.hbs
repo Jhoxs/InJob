@@ -1,0 +1,54 @@
+<div class="container p-4">
+    <div class="row">
+        {{#if resEmp}}
+        {{#each resEmp}}
+        <div class="col-md-5 mx-auto">
+            <div class="card crd-prf">
+                
+                <div class="card-header">
+                    <h3 class="card-title text-uppercase text-center">{{nombre_empleo}}</h3>
+                </div>
+                <div class="card-body">
+                    <table class="table table-hover table-striped table-dark">
+                        <tr>
+                            <td><b>NOMBRE EMPRESA</b></td>
+                            <td>{{nombre}} {{apellido}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>SUELDO</b></td>
+                            <td>{{sueldo}}</td>
+                        </tr>
+                        <tr>
+                            <td><b>DIRECCION</b></td>
+                            <td>{{direccion}}</td>
+                        </tr>
+                    </table>
+                    <hr>
+                    <div class="text-center">
+                        <a name="{{id_empleo}}"  class="btn btn-secondary btn-block" href="/empleo/infoJob/{{id_empleos}}"><i class="fa fa-info"></i> Ver información del empleo</a>
+                        <a href="/perfil/empresa/{{id_empleos}}+{{id_empresa}}" class="btn btn-dark mb-2 btn-block"><i class="fa fa-address-book"></i> Ver Información de {{nombre}} {{apellido}}</a>
+                    </div>
+                </div>
+                
+                
+            </div>
+        </div>
+        {{/each}}
+        {{else}}
+        <div class="col-md-6 mx-auto">
+            <div class="card crd-prf text-center">
+                <div class="card-header">
+                    <h3>Resultados de la búsqueda</h3>
+                </div>
+                <div class="card-body">
+                    <h3>No se han encotrado empleos con ese nombre</h3>
+                    <hr>
+                    <a class="btn btn-dark" href="/inicio">Realizar nueva busqueda</a>
+                </div>
+            </div>
+
+        </div>
+        
+        {{/if}}
+    </div>
+</div>

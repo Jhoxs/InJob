@@ -24,8 +24,8 @@ require('dotenv').config();
 
 //--inicializadores
 const app = express();
-iniciadorRoles.iniciar();
 require('./helpers/passport');
+iniciadorRoles.iniciar();
 
 //--Configuraciones
 app.set('port', process.env.PORT||3000);

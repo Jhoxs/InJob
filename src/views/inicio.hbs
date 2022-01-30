@@ -11,10 +11,10 @@
                 <div class="card-body  text-center">
                     <h5>Búsqueda</h5>
                     <hr style="background-color: white;">
-                    <form class="form-registro"  action="/usuarios/search" method="POST">
+                    <form class="form-registro"  action="/empleo/searchEmpleo" method="POST">
                         <div class="frm-group">
                             <p class="form-p text-center">Ingresa el nombre del empleo que estes buscando:</p>
-                            <input  type="text"  id="fnBsq" name="empleo" placeholder="Búsqueda" maxlength="10" style="color: black;" required >  
+                            <input  type="text"  id="fnBsq" name="empleo" placeholder="Búsqueda" maxlength="40" style="color: black;" required >  
                         </div>
                         
                         <hr style="background-color: white;">
@@ -71,7 +71,7 @@
                 </a>
             </div>
             {{/each}}
-            <a class="btn btn-dark btn-block mt-2">Ver Todos</a>
+            <a href="/viewListRec" class="btn btn-dark btn-block mt-2">Ver Todos</a>
             {{else}}
                 <div class="card crd-prf text-center">
                     <div class="card-body">
@@ -88,21 +88,59 @@
             <div class="card crd-prf">
                 <div class="card-header">
                     <h3>Empleos de empresas mejor valoradas</h3>
-                </div>
             </div>
-            {{#if empleo}}
+            
+            {{#if empleoValorado}}
+            {{#each empleoValorado}}
+            <div class=" btn-aEmp">
+            {{!empleos lista}}
+                <a name="{{id_empleo}}"  style="text-decoration: none;" href="/empleo/infoJob/{{id_empleos}}">
+                    <div class="card crd-prf mb-1 mt-1">
+                        <div class="card-header">
+                            <h4 class="text-left">
+                                {{nombre_empleo}}
+                            </h4>
+                        </div>
+                        <div class="card-body p-1">
+                            <table class="table table-hover table-striped tbl-info table-dark"> 
+                                <tr>
+                                    <td><b>NOMBRE DE LA EMPRESA</b></td>
+                                    <td class="text-left">{{this.nombre}} {{this.apellido}}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>SUELDO</b></td>
+                                    <td class="text-left">{{sueldo}}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>VALORACION</b></td>
+                                    <td class="text-left">{{cal}}</td>
+                                </tr>
+                                <tr>
+                                    <td><b>FECHA DE VENCIMIENTO</b></td>
+                                    <td class="text-left">{{timeAct fecha_vencimiento}}</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="card-footer text-center">
+                            Añadido {{timeago fecha_registro}}
+                        </div>
+                    </div>
+                </a>
+            </div>
+            {{/each}}
+            <a href="/viewListVal" class="btn btn-dark btn-block mt-2">Ver Todos</a>
             {{else}}
                 <div class="card crd-prf text-center">
                     <div class="card-body">
-                        <h2>Aún no han publicado ningún empleo</h2>
+                        <h2>No existen empleos con empresas valoradas</h2>
                         <hr style="background-color: white;">
                         <h4>Publica el tuyo ahora!</h4>
                         <a class="btn btn-dark" href="/empleo/add">Publicar</a>
                     </div>
                 </div>
             {{/if}}
-            
-         </div>
+            </div>
+        </div>
     </div>
 </div>
 

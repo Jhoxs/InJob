@@ -76,6 +76,29 @@
 .form-registro input:hover{
     border-color: #232428;
 }
+
+/*estrellas*/
+.clasificacion  label{
+    color: grey;
+    margin-left: 0.5rem;
+}
+.clasificacion{
+    direction: rtl;/* right to left */
+    unicode-bidi: bidi-override;/* bidi de bidireccional */
+}
+.clasificacion input[type = "radio"]{ 
+    display:none;
+}
+
+.clasificacion label:hover,
+.clasificacion label:hover ~ label{
+    color: #F2CB07;
+}
+
+input[type="radio"]:checked ~ label {
+    color: #F2CB07;
+  }
+
 @media only screen and (min-width: 548px){
     #fnombre{
         width: 50%;
