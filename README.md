@@ -12,7 +12,7 @@ Este es un servicio dedicado a la busqueda de empleos, valorando a estos en base
 Para poder instalar la app solo se debe seguir los siguentes pasos:
 1. Copiar el repositorio.
 2. Instalar las dependencias con el comando ```npm i``` esto instalará las dependencias necesarias.
-3. Crear nuestra base de datos en mysql. (La estructura se encuentra dentro del proyecto en la seccion resources/database/db.sql).
+3. Crear nuestra base de datos en mysql. (La estructura se encuentra dentro del proyecto en la sección resources/database/db.sql).
 4. Configurar las variables de entorno. (Las variables de entorno son las que usamos para ingresar a la base de datos). 
 **Nota:** Para configurar las variables de entorno de manera local, se debe crear un archivo .env en la raiz del proyecto.
 ---
