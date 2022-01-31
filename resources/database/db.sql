@@ -151,7 +151,10 @@ CREATE TABLE empleado_empresa(
 /*Cambios el las llaves foraneas empleado-empresas*/
 ALTER TABLE empleado_empresa DROP FOREIGN KEY empEmp_Fk1; 
 ALTER TABLE empleado_empresa ADD CONSTRAINT empEmp_Fk1 FOREIGN KEY (id_empleos) REFERENCES empleos (id_empleos) ON DELETE CASCADE ON UPDATE CASCADE;
-
+ALTER TABLE empleado_empresa DROP FOREIGN KEY empEmp_Fk2; 
+ALTER TABLE empleado_empresa ADD CONSTRAINT empEmp_Fk2 FOREIGN KEY (id_empleado) REFERENCES usuario (cedula) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE empleado_empresa DROP FOREIGN KEY empEmp_Fk3; 
+ALTER TABLE empleado_empresa ADD CONSTRAINT empEmp_Fk3 FOREIGN KEY (id_empresa) REFERENCES usuario (cedula) ON DELETE CASCADE ON UPDATE CASCADE;
 
 DROP TABLE IF EXISTS info_empresa;
 CREATE TABLE info_empresa(
