@@ -144,8 +144,8 @@ CREATE TABLE empleado_empresa(
   /*Llave primaria*/
   PRIMARY KEY (id_empEmp),
   CONSTRAINT empEmp_Fk1 FOREIGN KEY (id_empleos) REFERENCES empleos (id_empleos) ON DELETE CASCADE ON UPDATE CASCADE,
-  CONSTRAINT empEmp_Fk2 FOREIGN KEY (id_empleado) REFERENCES usuario (cedula),
-  CONSTRAINT empEmp_Fk3 FOREIGN KEY (id_empresa) REFERENCES usuario (cedula)
+  CONSTRAINT empEmp_Fk2 FOREIGN KEY (id_empleado) REFERENCES usuario (cedula)  ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT empEmp_Fk3 FOREIGN KEY (id_empresa) REFERENCES usuario (cedula)  ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 /*Cambios el las llaves foraneas empleado-empresas*/
